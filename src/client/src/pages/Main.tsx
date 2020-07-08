@@ -7,7 +7,7 @@ const ENDPOINT = process.env.REACT_APP_API_URL || "";
 const Main = () => {
   return (
     <div>
-      <h1>Welcome to TS-boilerplate</h1>
+      <h1>Welcome to Pigeon Web</h1>
     </div>
   );
 };
