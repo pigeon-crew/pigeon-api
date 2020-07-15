@@ -1,7 +1,7 @@
 import express from "express";
 import path from "path";
 import bodyParser from "body-parser";
-import userRouter from "./routes/user";
+import userRouter from "./routes/auth.api";
 import cors from "cors";
 import socket from "socket.io";
 import expressStatusMonitor from "express-status-monitor";
@@ -28,7 +28,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // API Routes
-app.use("/api/user", userRouter);
+app.use("/api/users", userRouter);
 
 const server = app.listen(app.get("port"), () => {
   console.log(`Listening on port ${app.get("port")} 🚀`);
