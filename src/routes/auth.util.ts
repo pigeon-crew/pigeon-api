@@ -36,6 +36,12 @@ const validateRefreshToken = (refreshToken: string): Promise<any> =>
             } else {
                 User.findOne({ refreshToken: refreshToken })
                     .then((user) => {
+                        if (!user) {
+                            rej({
+                                code: 'invalidToken',
+                                message: 'Refresh token invalid',
+                            });
+                        }
                         res(user);
                     })
                     .catch((err) => {
