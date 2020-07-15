@@ -15,7 +15,7 @@ export function connectToDatabase(cb: (err: Error) => void): (err: Error) => voi
     );
 
     mongoose.connection.once('open', () => {
-        console.log('MongoDB database connection established succesfully!');
+        console.log('MongoDB database connection established succesfully! 🤖');
     });
     return cb;
 }
