@@ -7,6 +7,7 @@ export function connectToDatabase(cb: (err: any) => void) {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
   });
   mongoose.connection.on(
     "error",
