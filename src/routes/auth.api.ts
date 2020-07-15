@@ -119,7 +119,7 @@ router.get("/", auth, (_, res) => {
 });
 
 // delete all users
-router.delete("/", (_, res) => {
+router.delete("/", auth, (_, res) => {
   User.deleteMany({})
     .then(() => {
       return res.status(200).json({ success: true });
