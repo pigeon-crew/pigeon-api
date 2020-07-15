@@ -1,5 +1,6 @@
 import express from "express";
 import { User } from "../models/user.model";
+import { errorHandler } from "./error";
 
 const router = express.Router();
 
@@ -19,7 +20,7 @@ router.post("/", (req, res) => {
       return res.status(200).json({ message: "success", user: data });
     })
     .catch((e) => {
-      return res.status(500).json({ error: e });
+      return errorHandler(res, e);
     });
 });
 
@@ -30,7 +31,7 @@ router.get("/", (_, res) => {
       return res.status(200).json({ message: "success", result: result });
     })
     .catch((e) => {
-      return res.status(500).json({ error: e });
+      return errorHandler(res, e);
     });
 });
 
@@ -41,7 +42,7 @@ router.delete("/", (_, res) => {
       return res.status(200).json({ message: "success" });
     })
     .catch((e) => {
-      return res.status(500).json({ error: e });
+      return errorHandler(res, e);
     });
 });
 
