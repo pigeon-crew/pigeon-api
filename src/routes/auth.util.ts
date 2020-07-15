@@ -7,7 +7,7 @@ const generateAccessToken = (user: IUser) => {
   const JWT_SECRET = process.env.JWT_SECRET;
 
   return sign(_.omit(user.toObject(), "password"), JWT_SECRET!, {
-    expiresIn: "10s", // for testing purposes
+    expiresIn: "60s", // for testing purposes
   });
 };
 
@@ -15,7 +15,7 @@ const generateRefreshToken = (user: IUser) => {
   const JWT_SECRET = process.env.JWT_SECRET;
 
   const refreshToken = sign({ type: "refresh" }, JWT_SECRET!, {
-    expiresIn: "20s", // 1 hour
+    expiresIn: "60s", // 1 hour
   });
 
   return User.findOneAndUpdate(

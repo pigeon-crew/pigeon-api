@@ -3,6 +3,7 @@ import { User } from "../models/user.model";
 import { errorHandler } from "./error";
 import { hash, compare } from "bcrypt";
 import { generateAccessToken, generateRefreshToken } from "./auth.util";
+import auth from "../middleware/auth";
 import "../utils/config";
 
 const router = express.Router();
@@ -80,7 +81,7 @@ router.post("/login", async (req, res) => {
 
 // TESTING ROUTES BELOW
 // get all users
-router.get("/", (_, res) => {
+router.get("/", auth, (_, res) => {
   User.find({})
     .then((result) => {
       return res.status(200).json({ success: true, result: result });
