@@ -32,7 +32,7 @@ app.use('/api/users', userRouter);
 
 const server = app.listen(app.get('port'), () => {
     console.log(`Listening on port ${app.get('port')} 🚀`);
-    console.log('  Press CTRL-C to stop\n');
+    console.log('  Press Command C to stop\n');
 });
 
 const io = socket(server);
