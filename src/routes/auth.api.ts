@@ -108,7 +108,7 @@ router.post("/refreshToken", (req, res) => {
 
 // TESTING ROUTES BELOW
 // get all users
-router.get("/", auth, (_, res) => {
+router.post("/", auth, (_, res) => {
   User.find({})
     .then((result) => {
       return res.status(200).json({ success: true, result: result });
