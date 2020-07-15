@@ -2,6 +2,7 @@ import express from "express";
 import { User } from "../models/user.model";
 import { errorHandler } from "./error";
 import { hash, compare } from "bcrypt";
+import { generateAccessToken, generateRefreshToken } from "./auth.util";
 import "../utils/config";
 
 const router = express.Router();
@@ -59,7 +60,16 @@ router.post("/login", async (req, res) => {
 
       if (result == true) {
         // password matched
-        return res.status(200).json({ success: true });
+        let accessToken = generateAccessToken(user);
+        let refreshToken = generateRefreshToken(user);
+
+        Promise.all([accessToken, refreshToken]).then((tokens) => {
+          return res.status(200).json({
+            success: true,
+            accessToken: tokens[0],
+            refreshToken: tokens[1],
+          });
+        });
       } else {
         // wrong password
         return errorHandler(res, "User email or password is incorrect.");
