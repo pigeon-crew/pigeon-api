@@ -1,10 +1,13 @@
 import express from "express";
-import { User } from "../models/user.model";
+import { User, IUser } from "../models/user.model";
 import { errorHandler } from "./error";
 import { hash, compare } from "bcrypt";
-import { generateAccessToken, generateRefreshToken } from "./auth.util";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+  validateRefreshToken,
+} from "./auth.util";
 import auth from "../middleware/auth";
-import "../utils/config";
 
 const router = express.Router();
 
@@ -50,8 +53,6 @@ router.post("/login", async (req, res) => {
   const email = req.body.email,
     password = req.body.password;
 
-  const JWT_SECRET = process.env.JWT_SECRET;
-
   User.findOne({ email: email }).then((user) => {
     // user does not exist
     if (!user) return errorHandler(res, "User email or password is incorrect.");
@@ -77,6 +78,32 @@ router.post("/login", async (req, res) => {
       }
     });
   });
+});
+
+// refresh token
+router.post("/refreshToken", (req, res) => {
+  const refreshToken = req.body.refreshToken;
+  if (!refreshToken) {
+    return errorHandler(res, "No token provided.");
+  }
+
+  validateRefreshToken(refreshToken)
+    .then((tokenResponse) => {
+      return generateAccessToken(tokenResponse as IUser);
+    })
+    .then((accessToken) => {
+      res.status(200).json({
+        success: true,
+        accessToken: accessToken,
+      });
+    })
+    .catch((err) => {
+      if (err.code) {
+        return errorHandler(res, err.message, err.code);
+      } else {
+        return errorHandler(res, err.message);
+      }
+    });
 });
 
 // TESTING ROUTES BELOW

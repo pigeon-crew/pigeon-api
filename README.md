@@ -1,4 +1,4 @@
-# TS-Boilerplate
+# Pigeon Web
 
 A boilerplate starter project for TypeScript, React, Express stack.
 
