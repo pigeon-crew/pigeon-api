@@ -1,14 +1,14 @@
 # Pigeon Web
 
-A boilerplate starter project for TypeScript, React, Express stack.
+Web-app and API endpoints for Pigeon, a Chrome extension to make sharing links easy and fun.
 
 ## Setting Up
 
 ##### Installing Requirements
 
 ```bash
-$ git clone https://github.com/Orang-utan/ts-boilerplate.git
-$ cd ts-boilerplate
+$ git clone https://github.com/pigeon-crew/pigeon-web.git
+$ cd pigeon-web
 $ yarn setup
 ```
 
