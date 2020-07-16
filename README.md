@@ -14,10 +14,18 @@ $ yarn setup
 
 ##### Configuring Enviromental Variable
 
-- Create file called ".env.development" in root directory
-- Create new enviromental var: "ATLAS_URI=xxxxxxxxxxx"
-- Create file called ".env" in "./src/client"
-- Create new enviormental var: "REACT_APP_API_URL=http://localhost:5000"
+Create file called ".env.development" in root directory, it should look like the following:
+
+```
+ATLAS_URI=mongodb-connection-string-placeholder
+JWT_SECRET=my-secret-jwt-key-placeholder
+```
+
+Then, create another file called ".env" in "src/client", it should look like the following:
+
+```
+ENDPOINT="localhost:5000"
+```
 
 ##### Running Project
 
