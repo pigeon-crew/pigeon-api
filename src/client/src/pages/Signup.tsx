@@ -2,6 +2,15 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Button } from 'semantic-ui-react';
 import Header from '../components/ui/Header';
+import { useLocation } from 'react-router-dom';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+
+interface FormValues {
+  email: string;
+  name: string;
+  password: string;
+  confirm: string;
+}
 
 const Headline = styled.h1`
   padding-top: 7%;
@@ -39,7 +48,7 @@ const FormContainer = styled.div`
 const InputField = styled.input`
   width: 200px;
   border-radius: 12px;
-  color: #797979;
+  color: black;
   background-color: #f5f6f8;
   padding: 8px 16px;
   font-family: 'Avenir';
@@ -62,28 +71,104 @@ const InputField = styled.input`
 `;
 
 const Signup = () => {
+  const params = new URLSearchParams(useLocation().search);
+  const emailQuery = params.get('email');
+
+  const initialValues: FormValues = {
+    email: emailQuery || '',
+    name: '',
+    password: '',
+    confirm: '',
+  };
+
   return (
     <Background>
       <Header />
       <>
         <Headline>Pigeon Sign Up</Headline>
-        <FormContainer>
-          <InputField
-            type="text"
-            name="email"
-            placeholder="janedoe@gmail.com"
-          />
-          <InputField type="text" name="name" placeholder="Jane Doe" />
-          <InputField type="password" name="password" placeholder="Password" />
-          <InputField
-            type="text"
-            name="confirm-password"
-            placeholder="Confirm Password"
-          />
-          <ButtonContainer>
-            <button className="ui primary button">Get Started</button>
-          </ButtonContainer>
-        </FormContainer>
+        <Formik
+          initialValues={initialValues}
+          validate={(values) => {
+            const errors = {} as any;
+            if (!values.email) {
+              errors.email = 'Email address required';
+            } else if (
+              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+            ) {
+              errors.email = 'Invalid email address';
+            }
+            return errors;
+          }}
+          onSubmit={(values, { setSubmitting }) => {
+            setTimeout(() => {
+              alert(JSON.stringify(values, null, 2));
+              setSubmitting(false);
+            }, 400);
+          }}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+          }: /* and other goodies */
+          {
+            values: any;
+            errors: any;
+            touched: any;
+            handleChange: any;
+            handleBlur: any;
+            handleSubmit: any;
+            isSubmitting: any;
+          }) => (
+            <>
+              <FormContainer>
+                <InputField
+                  type="text"
+                  name="email"
+                  value={values.email}
+                  placeholder="janedoe@gmail.com"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                <InputField
+                  type="text"
+                  name="name"
+                  value={values.name}
+                  placeholder="Jane Doe"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                <InputField
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                <InputField
+                  type="text"
+                  name="confirm-password"
+                  value={values.confirm}
+                  placeholder="Confirm Password"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                <ButtonContainer>
+                  <button className="ui primary button">Get Started</button>
+                </ButtonContainer>
+
+                {/*errors.username && touched.username && (
+                  <ErrorLabel>{errors.username}</ErrorLabel>
+                )*/}
+              </FormContainer>
+            </>
+          )}
+        </Formik>
       </>
     </Background>
   );
