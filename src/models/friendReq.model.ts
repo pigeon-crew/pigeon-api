@@ -31,4 +31,4 @@ const FriendReqSchema = new Schema({
 
 const FriendReq = mongoose.model<IFriendReq>('Friend Request', FriendReqSchema);
 
-export { FriendReq, IFriendReq };
+export { FriendReq, IFriendReq, FriendReqStatus };

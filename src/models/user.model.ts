@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 interface IUser extends mongoose.Document {
+  _id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -16,7 +17,7 @@ const UserSchema = new Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   refreshToken: { type: String, required: false },
-  friends: [String],
+  friendships: [String],
 });
 
 const User = mongoose.model<IUser>('User', UserSchema);

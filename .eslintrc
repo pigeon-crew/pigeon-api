@@ -9,6 +9,7 @@
     "no-console": "off",
     "max-len": "off",
     "no-unused-vars": "warn",
-    "indent": "off"
+    "indent": "off",
+    "no-underscore-dangle": "off"
   }
 }
