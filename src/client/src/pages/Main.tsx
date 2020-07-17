@@ -65,18 +65,6 @@ const H1 = styled.h1`
   margin-bottom: 40px;
 `;
 
-const HeaderContainer = styled.div`
-  margin: 0;
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  width: 60%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: white;
-`;
-
 const LandingGraphic = styled.img`
   display: flex;
   max-width: 50%;
