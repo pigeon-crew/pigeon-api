@@ -6,8 +6,7 @@ import {
   generateAccessToken,
   generateRefreshToken,
   validateRefreshToken,
-} from './auth.util';
-import auth from '../middleware/auth';
+} from './user.util';
 
 const router = express.Router();
 
@@ -40,7 +39,7 @@ router.post('/signup', async (req, res) => {
     return newUser
       .save()
       .then(() => res.status(200).json({ success: true }))
-      .catch((e) => errorHandler(res, e));
+      .catch((e) => errorHandler(res, e.message));
   });
 });
 
@@ -105,7 +104,7 @@ router.post('/refreshToken', (req, res) => {
 
 // TESTING ROUTES BELOW
 // get all users
-router.post('/', auth, (_, res) => {
+router.post('/', (_, res) => {
   User.find({})
     .then((result) => res.status(200).json({ success: true, result }))
     .catch((e) => errorHandler(res, e));
