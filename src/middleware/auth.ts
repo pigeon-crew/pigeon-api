@@ -24,8 +24,6 @@ const auth = (
     const decodedUser = decoded as IUser;
     req.userId = decodedUser._id;
 
-    console.log(decodedUser);
-
     return next();
   });
 };

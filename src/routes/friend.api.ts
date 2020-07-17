@@ -1,10 +1,6 @@
 import express from 'express';
-import {
-  FriendReq,
-  IFriendReq,
-  FriendReqStatus,
-} from '../models/friendReq.model';
-import { User, IUser } from '../models/user.model';
+import { FriendReq, FriendReqStatus } from '../models/friendReq.model';
+import { User } from '../models/user.model';
 import errorHandler from './error';
 import auth from '../middleware/auth';
 
@@ -51,8 +47,12 @@ router.get('/request', auth, (req, res) => {
       if (!friendReqs) {
         return errorHandler(res, 'Invalid recipient id');
       }
+      // only return reqs that are pending
+      const pendingReqs = friendReqs.filter(
+        (val) => val.status === FriendReqStatus.requested
+      );
 
-      return res.status(200).json({ success: true, data: friendReqs });
+      return res.status(200).json({ success: true, data: pendingReqs });
     })
     .catch((err) => {
       return errorHandler(res, err.message);
@@ -60,17 +60,52 @@ router.get('/request', auth, (req, res) => {
 });
 
 // accept friend request
-router.post('/accept', (req, res) => {
+router.post('/accept', auth, async (req, res) => {
   const { friendReqId } = req.body;
+  const { userId } = req;
 
-  return res.json({ success: true });
+  const friendReq = await FriendReq.findOne({ _id: friendReqId });
+
+  if (!friendReq) return errorHandler(res, 'Friend request does not exist');
+  if (!(friendReq.recipientId === userId))
+    return errorHandler(res, 'You are not the recipient');
+
+  friendReq.status = FriendReqStatus.accepted;
+
+  return friendReq.save().then(async (updatedReq) => {
+    const { requesterId } = updatedReq;
+    const { recipientId } = updatedReq;
+
+    await User.update(
+      { _id: requesterId },
+      { $push: { friendships: recipientId } }
+    );
+
+    await User.update(
+      { _id: recipientId },
+      { $push: { friendships: requesterId } }
+    );
+
+    return res.json({ success: true });
+  });
 });
 
 // reject friend request
-router.post('/reject', (req, res) => {
+router.post('/reject', auth, async (req, res) => {
   const { friendReqId } = req.body;
+  const { userId } = req;
 
-  return res.json({ success: true });
+  const friendReq = await FriendReq.findOne({ _id: friendReqId });
+
+  if (!friendReq) return errorHandler(res, 'Friend request does not exist');
+  if (!(friendReq.recipientId === userId))
+    return errorHandler(res, 'You are not the recipient');
+
+  friendReq.status = FriendReqStatus.rejected;
+
+  return friendReq.save().then(() => {
+    return res.json({ success: true });
+  });
 });
 
 // TESTING ROUTES BELOW

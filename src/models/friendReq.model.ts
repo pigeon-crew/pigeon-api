@@ -4,11 +4,12 @@ const { Schema } = mongoose;
 
 enum FriendReqStatus {
   requested,
-  acceped,
+  accepted,
   rejected,
 }
 
 interface IFriendReq extends mongoose.Document {
+  _id: string;
   requesterId: string;
   recipientId: string;
   status: FriendReqStatus;

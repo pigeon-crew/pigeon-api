@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import socket from 'socket.io';
 import expressStatusMonitor from 'express-status-monitor';
-import userRouter from './routes/auth.api';
+import userRouter from './routes/user.api';
 import friendReqRouter from './routes/friend.api';
 import connectToDatabase from './utils/mongo';
 import './utils/config';
