@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
 import styled from 'styled-components';
+import Header from '../components/ui/Header';
 
 // TODO: Fix mobile view
 
@@ -13,25 +14,6 @@ const Container = styled.div`
   min-height: 100%;
   opacity: 100%;
   background-color: #ffa3a3;
-`;
-
-const NavBar = styled.div`
-  max-width: 80%;
-  margin: auto;
-  margin-top: 34px;
-  display: flex;
-`;
-
-const Logo = styled.div`
-  font-size: 30px;
-`;
-
-const PigeonName = styled.div`
-  font-size: 30px;
-  margin-left: 10px;
-  font-family: 'Avenir';
-  font-weight: 500;
-  color: white;
 `;
 
 const ContentContainer = styled.div`
@@ -101,10 +83,7 @@ const InputField = styled.input`
 const Main = () => {
   return (
     <Container>
-      <NavBar>
-        <Logo>🐦</Logo>
-        <PigeonName>Pigeon</PigeonName>
-      </NavBar>
+      <Header />
       <ContentContainer>
         <Content>
           <LandingTextContainer>
