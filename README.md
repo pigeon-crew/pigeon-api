@@ -24,7 +24,7 @@ JWT_SECRET=my-secret-jwt-key-placeholder
 Then, create another file called ".env" in "src/client", it should look like the following:
 
 ```
-ENDPOINT="localhost:5000"
+REACT_APP_API_URL="http://localhost:5000"
 ```
 
 ##### Running Project
