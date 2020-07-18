@@ -4,6 +4,7 @@ import { Button } from 'semantic-ui-react';
 import Header from '../components/ui/Header';
 import { useLocation } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { ENDPOINT } from '../utils/config';
 import axios from 'axios';
 
 // TICKETS: Add loading animation to button. Validate email on landing page?
@@ -132,7 +133,7 @@ const Signup = () => {
     };
 
     axios({
-      url: `${process.env.REACT_APP_API_URL}/api/users/signup`,
+      url: `${ENDPOINT}/api/users/signup`,
       method: 'POST',
       timeout: 0,
       headers: {
