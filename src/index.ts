@@ -4,10 +4,12 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import socket from 'socket.io';
 import expressStatusMonitor from 'express-status-monitor';
-import userRouter from './routes/user.api';
-import friendReqRouter from './routes/friend.api';
 import connectToDatabase from './utils/mongo';
 import './utils/config';
+
+import userRouter from './routes/user.api';
+import friendReqRouter from './routes/friend.api';
+import linkRouter from './routes/link.api';
 
 const app = express();
 
@@ -31,6 +33,7 @@ if (process.env.NODE_ENV === 'production') {
 // API Routes
 app.use('/api/users', userRouter);
 app.use('/api/friends', friendReqRouter);
+app.use('/api/links', linkRouter);
 
 const server = app.listen(app.get('port'), () => {
   console.log(`Listening on port ${app.get('port')} 🚀`);
