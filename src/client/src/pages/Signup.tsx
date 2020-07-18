@@ -4,6 +4,9 @@ import { Button } from 'semantic-ui-react';
 import Header from '../components/ui/Header';
 import { useLocation } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import axios from 'axios';
+
+// TICKETS: Add loading animation to button. Validate email on landing page?
 
 interface FormValues {
   email: string;
@@ -105,14 +108,42 @@ const Signup = () => {
               errors.email = 'Invalid email address';
             }
 
+            if (!values.name) {
+              errors.name = 'Name is required';
+            }
+
+            if (!values.password) {
+              errors.password = 'Password is required';
+            }
+
             if (values.confirm !== values.password) {
               errors.confirm = "Passwords don't match";
             }
             return errors;
           }}
           onSubmit={(values, { setSubmitting }) => {
+            const requiredValues = {
+              email: values.email,
+              firstName: values.name.split(' ').slice(0, -1).join(' '),
+              lastName: values.name.split(' ').slice(-1).join(' '),
+              password: values.password,
+            };
+
             setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
+              axios({
+                url: `${process.env.REACT_APP_API_URL}/api/users/signup`,
+                method: 'POST',
+                timeout: 0,
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                data: JSON.stringify({
+                  requiredValues,
+                }),
+              }).then((data: any) => {});
+              alert(
+                JSON.stringify(requiredValues, null, 2)
+              ); /* To be deleted */
               setSubmitting(false);
             }, 400);
           }}
@@ -162,6 +193,9 @@ const Signup = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
+                {errors.name && touched.name && (
+                  <ErrorText>{errors.name}</ErrorText>
+                )}
                 <InputField
                   type="password"
                   name="password"
@@ -170,6 +204,9 @@ const Signup = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
+                {errors.password && touched.password && (
+                  <ErrorText>{errors.password}</ErrorText>
+                )}
                 <InputField
                   type="password"
                   name="confirm"
