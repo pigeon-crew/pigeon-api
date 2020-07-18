@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import { Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 import Header from '../components/ui/Header';
+import { Link } from 'react-router-dom';
 
 // TODO: Fix mobile view
 
@@ -81,6 +81,12 @@ const InputField = styled.input`
 `;
 
 const Main = () => {
+  const [pushURL, setPushURL] = useState('/signup');
+
+  const handleChange = (event: any) => {
+    setPushURL('/signup?email=' + event.target.value);
+  };
+
   return (
     <Container>
       <Header />
@@ -88,8 +94,13 @@ const Main = () => {
         <Content>
           <LandingTextContainer>
             <H1>Spark quality conversations by sharing links.</H1>
-            <InputField type="text" name="email" placeholder="Enter email" />
-            <Link to="/signup">
+            <InputField
+              type="text"
+              name="email"
+              placeholder="Enter email"
+              onChange={handleChange}
+            />
+            <Link to={pushURL}>
               <button className="ui primary button">Get Started</button>
             </Link>
           </LandingTextContainer>

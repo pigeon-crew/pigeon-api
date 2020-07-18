@@ -2,6 +2,15 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Button } from 'semantic-ui-react';
 import Header from '../components/ui/Header';
+import { useLocation } from 'react-router-dom';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+
+interface FormValues {
+  email: string;
+  name: string;
+  password: string;
+  confirm: string;
+}
 
 const Headline = styled.h1`
   padding-top: 7%;
@@ -9,7 +18,7 @@ const Headline = styled.h1`
   font-size: 33px;
   text-align: center;
   color: white;
-  padding-bottom: 10px;
+  margin-block-end: 0em;
 `;
 
 const Background = styled.div`
@@ -24,8 +33,7 @@ const Background = styled.div`
 
 const ButtonContainer = styled.div`
   display: flex;
-  width: 400px;
-  margin-left: 46%;
+  width: 100%;
 `;
 
 /* TODO: Decide on Formik or another way of processing form submissions*/
@@ -39,7 +47,7 @@ const FormContainer = styled.div`
 const InputField = styled.input`
   width: 200px;
   border-radius: 12px;
-  color: #797979;
+  color: black;
   background-color: #f5f6f8;
   padding: 8px 16px;
   font-family: 'Avenir';
@@ -47,7 +55,7 @@ const InputField = styled.input`
   font-size: 14px;
   border: 3px solid #f5f6f8;
   margin: auto;
-  margin-bottom: 20px;
+  margin-top: 20px;
 
   &::placeholder {
     color: rgba(0, 0, 0, 0.4);
@@ -61,29 +69,132 @@ const InputField = styled.input`
   }
 `;
 
+const ErrorText = styled.p`
+  font-family: 'Avenir';
+  font-weight: 500;
+  font-size: 14px;
+  color: #8b0000;
+  margin: 5px auto 0 auto;
+`;
+
 const Signup = () => {
+  const params = new URLSearchParams(useLocation().search);
+  const emailQuery = params.get('email');
+
+  const initialValues: FormValues = {
+    email: emailQuery || '',
+    name: '',
+    password: '',
+    confirm: '',
+  };
+
   return (
     <Background>
       <Header />
       <>
         <Headline>Pigeon Sign Up</Headline>
-        <FormContainer>
-          <InputField
-            type="text"
-            name="email"
-            placeholder="janedoe@gmail.com"
-          />
-          <InputField type="text" name="name" placeholder="Jane Doe" />
-          <InputField type="password" name="password" placeholder="Password" />
-          <InputField
-            type="text"
-            name="confirm-password"
-            placeholder="Confirm Password"
-          />
-          <ButtonContainer>
-            <button className="ui primary button">Get Started</button>
-          </ButtonContainer>
-        </FormContainer>
+        <Formik
+          initialValues={initialValues}
+          validate={(values) => {
+            const errors = {} as any;
+            if (!values.email) {
+              errors.email = 'Email address required';
+            } else if (
+              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+            ) {
+              errors.email = 'Invalid email address';
+            }
+
+            if (values.confirm !== values.password) {
+              errors.confirm = "Passwords don't match";
+            }
+            return errors;
+          }}
+          onSubmit={(values, { setSubmitting }) => {
+            setTimeout(() => {
+              alert(JSON.stringify(values, null, 2));
+              setSubmitting(false);
+            }, 400);
+          }}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+          }: /* and other goodies */
+          {
+            values: any;
+            errors: any;
+            touched: any;
+            handleChange: {
+              (e: React.ChangeEvent<any>): void;
+            };
+            handleBlur: {
+              (e: React.ChangeEvent<any>): void;
+            };
+            handleSubmit: {
+              (e: React.ChangeEvent<any>): void;
+            };
+            isSubmitting: boolean;
+          }) => (
+            <>
+              <FormContainer onSubmit={handleSubmit}>
+                <InputField
+                  type="text"
+                  name="email"
+                  value={values.email}
+                  placeholder="janedoe@gmail.com"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                {errors.email && touched.email && (
+                  <ErrorText>{errors.email}</ErrorText>
+                )}
+                <InputField
+                  type="text"
+                  name="name"
+                  value={values.name}
+                  placeholder="Jane Doe"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                <InputField
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                <InputField
+                  type="password"
+                  name="confirm"
+                  value={values.confirm}
+                  placeholder="Confirm Password"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                {errors.confirm && touched.confirm && (
+                  <ErrorText>{errors.confirm}</ErrorText>
+                )}
+                <ButtonContainer>
+                  <button
+                    type="submit"
+                    className="ui primary button"
+                    style={{ margin: '15px auto 0 auto' }}
+                    onClick={handleSubmit}
+                  >
+                    Get Started
+                  </button>
+                </ButtonContainer>
+              </FormContainer>
+            </>
+          )}
+        </Formik>
       </>
     </Background>
   );
