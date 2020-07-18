@@ -19,4 +19,19 @@ router.get('/', (req, res) => {
   res.status(200).json({ success: true });
 });
 
+// TESTING ROUTES BELOW
+// get all links
+router.post('/', (_, res) => {
+  Link.find({})
+    .then((result) => res.status(200).json({ success: true, result }))
+    .catch((e) => errorHandler(res, e));
+});
+
+// delete all links
+router.delete('/', (_, res) => {
+  Link.deleteMany({})
+    .then(() => res.status(200).json({ success: true }))
+    .catch((e) => errorHandler(res, e));
+});
+
 export default router;
