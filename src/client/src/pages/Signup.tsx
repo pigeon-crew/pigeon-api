@@ -146,8 +146,9 @@ const Signup = () => {
       .then(() => {
         alert('Sign up success');
       })
-      .catch((err) => {
-        alert('Oops failed!');
+      .catch((err: any) => {
+        const errMessage = err.response.data.message;
+        alert(errMessage);
       });
     setSubmitting(false);
   };

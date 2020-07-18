@@ -1,4 +1,8 @@
-const errorHandler = (res: any, errorMessage: string, errorCode?: string): Response => {
+const errorHandler = (
+  res: any,
+  errorMessage: string,
+  errorCode?: string
+): Response => {
   if (errorCode === 'invalidToken' || errorCode === 'refreshExpired') {
     return res.status(403).send({
       success: false,
