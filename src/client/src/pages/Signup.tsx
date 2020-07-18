@@ -4,6 +4,9 @@ import { Button } from 'semantic-ui-react';
 import Header from '../components/ui/Header';
 import { useLocation } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import axios from 'axios';
+
+// TICKETS: Add loading animation to button. Validate email on landing page?
 
 interface FormValues {
   email: string;
@@ -77,6 +80,13 @@ const ErrorText = styled.p`
   margin: 5px auto 0 auto;
 `;
 
+interface ISignUpValues {
+  email: string;
+  name: string;
+  password: string;
+  confirm: string;
+}
+
 const Signup = () => {
   const params = new URLSearchParams(useLocation().search);
   const emailQuery = params.get('email');
@@ -88,6 +98,59 @@ const Signup = () => {
     confirm: '',
   };
 
+  const validateSignUp = (values: ISignUpValues) => {
+    const errors = {} as any;
+    if (!values.email) {
+      errors.email = 'Email address required';
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+      errors.email = 'Invalid email address';
+    }
+
+    if (!values.name) {
+      errors.name = 'Name is required';
+    }
+
+    if (!values.password) {
+      errors.password = 'Password is required';
+    }
+
+    if (values.confirm !== values.password) {
+      errors.confirm = "Passwords don't match";
+    }
+    return errors;
+  };
+
+  const handleSubmit = (
+    values: ISignUpValues,
+    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
+  ) => {
+    const requiredValues = {
+      email: values.email,
+      firstName: values.name.split(' ').slice(0, -1).join(' '),
+      lastName: values.name.split(' ').slice(-1).join(' '),
+      password: values.password,
+    };
+
+    axios({
+      url: `${process.env.REACT_APP_API_URL}/api/users/signup`,
+      method: 'POST',
+      timeout: 0,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({
+        ...requiredValues,
+      }),
+    })
+      .then(() => {
+        alert('Sign up success');
+      })
+      .catch((err) => {
+        alert('Oops failed!');
+      });
+    setSubmitting(false);
+  };
+
   return (
     <Background>
       <Header />
@@ -95,27 +158,8 @@ const Signup = () => {
         <Headline>Pigeon Sign Up</Headline>
         <Formik
           initialValues={initialValues}
-          validate={(values) => {
-            const errors = {} as any;
-            if (!values.email) {
-              errors.email = 'Email address required';
-            } else if (
-              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-            ) {
-              errors.email = 'Invalid email address';
-            }
-
-            if (values.confirm !== values.password) {
-              errors.confirm = "Passwords don't match";
-            }
-            return errors;
-          }}
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              setSubmitting(false);
-            }, 400);
-          }}
+          validate={validateSignUp}
+          onSubmit={handleSubmit}
         >
           {({
             values,
@@ -162,6 +206,9 @@ const Signup = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
+                {errors.name && touched.name && (
+                  <ErrorText>{errors.name}</ErrorText>
+                )}
                 <InputField
                   type="password"
                   name="password"
@@ -170,6 +217,9 @@ const Signup = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
+                {errors.password && touched.password && (
+                  <ErrorText>{errors.password}</ErrorText>
+                )}
                 <InputField
                   type="password"
                   name="confirm"
