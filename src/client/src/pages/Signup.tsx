@@ -18,7 +18,7 @@ const Headline = styled.h1`
   font-size: 33px;
   text-align: center;
   color: white;
-  padding-bottom: 10px;
+  margin-block-end: 0em;
 `;
 
 const Background = styled.div`
@@ -33,8 +33,7 @@ const Background = styled.div`
 
 const ButtonContainer = styled.div`
   display: flex;
-  width: 400px;
-  margin-left: 46%;
+  width: 100%;
 `;
 
 /* TODO: Decide on Formik or another way of processing form submissions*/
@@ -56,7 +55,7 @@ const InputField = styled.input`
   font-size: 14px;
   border: 3px solid #f5f6f8;
   margin: auto;
-  margin-bottom: 20px;
+  margin-top: 20px;
 
   &::placeholder {
     color: rgba(0, 0, 0, 0.4);
@@ -68,6 +67,14 @@ const InputField = styled.input`
     border: 3px solid #ddd;
     color: black;
   }
+`;
+
+const ErrorText = styled.p`
+  font-family: 'Avenir';
+  font-weight: 500;
+  font-size: 14px;
+  color: #8b0000;
+  margin: 5px auto 0 auto;
 `;
 
 const Signup = () => {
@@ -97,6 +104,10 @@ const Signup = () => {
             ) {
               errors.email = 'Invalid email address';
             }
+
+            if (values.confirm !== values.password) {
+              errors.confirm = "Passwords don't match";
+            }
             return errors;
           }}
           onSubmit={(values, { setSubmitting }) => {
@@ -119,13 +130,19 @@ const Signup = () => {
             values: any;
             errors: any;
             touched: any;
-            handleChange: any;
-            handleBlur: any;
-            handleSubmit: any;
-            isSubmitting: any;
+            handleChange: {
+              (e: React.ChangeEvent<any>): void;
+            };
+            handleBlur: {
+              (e: React.ChangeEvent<any>): void;
+            };
+            handleSubmit: {
+              (e: React.ChangeEvent<any>): void;
+            };
+            isSubmitting: boolean;
           }) => (
             <>
-              <FormContainer>
+              <FormContainer onSubmit={handleSubmit}>
                 <InputField
                   type="text"
                   name="email"
@@ -134,6 +151,9 @@ const Signup = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
+                {errors.email && touched.email && (
+                  <ErrorText>{errors.email}</ErrorText>
+                )}
                 <InputField
                   type="text"
                   name="name"
@@ -151,20 +171,26 @@ const Signup = () => {
                   onBlur={handleBlur}
                 />
                 <InputField
-                  type="text"
-                  name="confirm-password"
+                  type="password"
+                  name="confirm"
                   value={values.confirm}
                   placeholder="Confirm Password"
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
+                {errors.confirm && touched.confirm && (
+                  <ErrorText>{errors.confirm}</ErrorText>
+                )}
                 <ButtonContainer>
-                  <button className="ui primary button">Get Started</button>
+                  <button
+                    type="submit"
+                    className="ui primary button"
+                    style={{ margin: '15px auto 0 auto' }}
+                    onClick={handleSubmit}
+                  >
+                    Get Started
+                  </button>
                 </ButtonContainer>
-
-                {/*errors.username && touched.username && (
-                  <ErrorLabel>{errors.username}</ErrorLabel>
-                )*/}
               </FormContainer>
             </>
           )}

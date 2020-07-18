@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 import Header from '../components/ui/Header';
-import { BrowserRouter as Router, Switch, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 // TODO: Fix mobile view
 
