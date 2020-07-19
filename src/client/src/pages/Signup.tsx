@@ -5,7 +5,7 @@ import Header from '../components/ui/Header';
 import { useLocation } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { ENDPOINT } from '../utils/config';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 
 // TICKETS: Add loading animation to button. Validate email on landing page?
 

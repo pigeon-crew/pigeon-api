@@ -11,6 +11,8 @@ import userRouter from './routes/user.api';
 import friendReqRouter from './routes/friend.api';
 import linkRouter from './routes/link.api';
 
+import ioEvents from './socket/index';
+
 const app = express();
 
 connectToDatabase((err) => {
@@ -21,6 +23,7 @@ app.set('port', process.env.PORT || 5000);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+
 if (process.env.NODE_ENV === 'production') {
   const root = path.join(__dirname, 'client', 'build');
 
@@ -40,13 +43,9 @@ const server = app.listen(app.get('port'), () => {
   console.log('  Press Command C to stop\n');
 });
 
+// setup socket server and events
 const io = socket(server);
-io.on('connection', (soc) => {
-  console.log('Connected...');
-  soc.on('disconnect', () => {
-    console.log('Disconnected');
-  });
-});
+ioEvents(io);
 
 app.set('socketio', io);
 

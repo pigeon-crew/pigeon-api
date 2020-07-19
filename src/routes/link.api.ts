@@ -6,7 +6,7 @@ import auth from '../middleware/auth';
 const router = express.Router();
 
 // send new link
-router.post('/create', (req, res) => {
+router.post('/send', (req, res) => {
   const { linkUrl } = req.body;
   const { recipientId } = req.body;
   const { senderId } = req.body;
