@@ -2,7 +2,6 @@ import React from 'react';
 import Main from './Main';
 import Signup from './Signup';
 import AddFriends from './onboarding/AddFriends';
-import Dashboard from './Dashboard';
 import Links from './Links';
 
 import {
@@ -19,8 +18,6 @@ const AppRouter = () => {
         <Route exact path="/" component={Main} />
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/onboarding" component={AddFriends} />
-        <Route exact path="/dashboard" component={Dashboard} />
-        <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/links" component={Links} />
       </Switch>
     </Router>

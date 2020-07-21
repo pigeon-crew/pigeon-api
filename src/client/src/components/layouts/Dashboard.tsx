@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import InstallExtensionModal from '../../modals/InstallExtensionModal';
-import Sidebar from '../../components/ui/Sidebar';
-import Colors from '../../common/Colors';
-import Header from '../../components/ui/Header';
+import Sidebar from '../ui/Sidebar';
 
 // AUTH LOGIC HERE
 
@@ -30,19 +28,11 @@ const ContentContainer = styled.div`
   margin-left: auto;
 `;
 
-const Content = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-`;
-
 const User: React.FC<Props> = ({ children, installExtensionOpen, ...rest }) => {
   return (
     <>
       {installExtensionOpen && <InstallExtensionModal />}
       <Container>
-        <Header color={Colors.pink} />
         <ContentContainer>
           <Sidebar />
           {children}

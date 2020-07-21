@@ -257,7 +257,7 @@ const AddFriends: React.FC<Props> = (props) => {
                     style={{ margin: '15px auto 0 auto' }}
                     onClick={() => {
                       if (referrals >= 1) {
-                        history.push('/dashboard');
+                        history.push('/links');
                       } else {
                         setInsufficientReferrals(true);
                       }
