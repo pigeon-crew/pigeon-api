@@ -4,7 +4,12 @@ import Signup from './Signup';
 import AddFriends from './onboarding/AddFriends';
 import Dashboard from './Dashboard';
 
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
 
 const AppRouter = () => {
   return (
@@ -14,6 +19,7 @@ const AppRouter = () => {
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/onboarding" component={AddFriends} />
         <Route exact path="/dashboard" component={Dashboard} />
+        <Redirect to="/" />
       </Switch>
     </Router>
   );
