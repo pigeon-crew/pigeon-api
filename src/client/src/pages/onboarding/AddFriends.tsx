@@ -1,34 +1,13 @@
-import * as React from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
 import { Button } from 'semantic-ui-react';
-import Header from '../components/ui/Header';
-import { useLocation } from 'react-router-dom';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { ENDPOINT } from '../utils/config';
-import axios, { AxiosError } from 'axios';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import styled from 'styled-components';
+import Header from '../../components/ui/Header';
 import { useHistory } from 'react-router-dom';
-import AddFriend from './onboarding/AddFriends';
+import { ENDPOINT } from '../../utils/config';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import axios from 'axios';
 
-// TICKETS: Add loading animation to button. Validate email on landing page?
-
-interface FormValues {
-  email: string;
-  name: string;
-  password: string;
-  confirm: string;
-}
-
-const Headline = styled.h1`
-  padding-top: 7%;
-  font-family: 'Avenir';
-  font-size: 33px;
-  text-align: center;
-  color: white;
-  margin-block-end: 0em;
-`;
-
-const Background = styled.div`
+const Container = styled.div`
   position: fixed;
   bottom: 0;
   right: 0;
@@ -36,6 +15,52 @@ const Background = styled.div`
   min-height: 100%;
   opacity: 100%;
   background-color: #ffa3a3;
+`;
+
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-width: 80%;
+  margin-top: 20px;
+  margin-right: auto;
+  margin-left: auto;
+  justify-content: center;
+`;
+
+const H1 = styled.h1`
+  font-size: 40px;
+  margin: auto;
+  padding: 20px 0;
+`;
+
+const SubHeader = styled.div`
+  font-size: 20px;
+  color: rgb(72, 72, 72);
+  margin: auto;
+`;
+
+const InputField = styled.input`
+  width: 200px;
+  color: black;
+  background-color: #f5f6f8;
+  padding: 7px 16px;
+  font-family: 'Avenir';
+  font-weight: 400;
+  font-size: 14px;
+  border: 3px solid #f5f6f8;
+  margin-top: 20px;
+
+  &::placeholder {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+  &:focus {
+    outline: none;
+    background: white;
+    border: 3px solid #ff8686;
+    color: black;
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -46,32 +71,7 @@ const ButtonContainer = styled.div`
 const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
-`;
-
-const InputField = styled.input`
-  width: 200px;
-  border-radius: 12px;
-  color: black;
-  background-color: #f5f6f8;
-  padding: 8px 16px;
-  font-family: 'Avenir';
-  font-weight: 400;
-  font-size: 14px;
-  border: 3px solid #f5f6f8;
-  margin: auto;
-  margin-top: 20px;
-
-  &::placeholder {
-    color: rgba(0, 0, 0, 0.4);
-  }
-
-  &:focus {
-    outline: none;
-    background: white;
-    border: 3px solid #ddd;
-    color: black;
-  }
+  margin: 20px auto 10px auto;
 `;
 
 const ErrorText = styled.p`
@@ -82,17 +82,20 @@ const ErrorText = styled.p`
   margin: 5px auto 0 auto;
 `;
 
-const Signup = () => {
-  const params = new URLSearchParams(useLocation().search);
-  const emailQuery = params.get('email');
-  const history = useHistory();
+interface Props {}
 
+interface FormValues {
+  name: string;
+  email: string;
+}
+
+const AddFriends: React.FC<Props> = (props) => {
   const initialValues: FormValues = {
-    email: emailQuery || '',
     name: '',
-    password: '',
-    confirm: '',
+    email: '',
   };
+
+  const history = useHistory();
 
   const validateSignUp = (values: FormValues) => {
     const errors = {} as any;
@@ -106,13 +109,6 @@ const Signup = () => {
       errors.name = 'Name is required';
     }
 
-    if (!values.password) {
-      errors.password = 'Password is required';
-    }
-
-    if (values.confirm !== values.password) {
-      errors.confirm = "Passwords don't match";
-    }
     return errors;
   };
 
@@ -122,13 +118,13 @@ const Signup = () => {
   ) => {
     const requiredValues = {
       email: values.email,
-      firstName: values.name.split(' ').slice(0, -1).join(' '),
-      lastName: values.name.split(' ').slice(-1).join(' '),
-      password: values.password,
     };
 
-    axios({
-      url: `${ENDPOINT}/api/users/signup`,
+    console.log('Waiting for updated route');
+    alert('Successfuly sent invite');
+
+    /*axios({
+      url: `${ENDPOINT}/api/friends/request`,
       method: 'POST',
       timeout: 0,
       headers: {
@@ -139,20 +135,24 @@ const Signup = () => {
       }),
     })
       .then(() => {
-        alert('Sign up success');
+        alert('Successfuly sent invite');
       })
       .catch((err: any) => {
         const errMessage = err.response.data.message;
         alert(errMessage);
       });
-    setSubmitting(false);
+    setSubmitting(false);*/
   };
 
   return (
-    <Background>
+    <Container>
       <Header />
-      <>
-        <Headline>Pigeon Sign Up</Headline>
+      <ContentContainer>
+        <H1>Welcome to Pigeon 🎉</H1>
+        <SubHeader>
+          To get started, add the contact information of at least one friend or
+          family member
+        </SubHeader>
         <Formik
           initialValues={initialValues}
           validate={validateSignUp}
@@ -166,6 +166,7 @@ const Signup = () => {
             handleBlur,
             handleSubmit,
             isSubmitting,
+            resetForm,
           }: /* and other goodies */
           {
             values: any;
@@ -181,20 +182,12 @@ const Signup = () => {
               (e: React.ChangeEvent<any>): void;
             };
             isSubmitting: boolean;
+            resetForm: {
+              (): void;
+            };
           }) => (
             <>
               <FormContainer onSubmit={handleSubmit}>
-                <InputField
-                  type="text"
-                  name="email"
-                  value={values.email}
-                  placeholder="janedoe@gmail.com"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                {errors.email && touched.email && (
-                  <ErrorText>{errors.email}</ErrorText>
-                )}
                 <InputField
                   type="text"
                   name="name"
@@ -207,47 +200,70 @@ const Signup = () => {
                   <ErrorText>{errors.name}</ErrorText>
                 )}
                 <InputField
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  value={values.password}
+                  type="text"
+                  name="email"
+                  value={values.email}
+                  placeholder="janedoe@gmail.com"
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
-                {errors.password && touched.password && (
-                  <ErrorText>{errors.password}</ErrorText>
+                {errors.email && touched.email && (
+                  <ErrorText>{errors.email}</ErrorText>
                 )}
-                <InputField
-                  type="password"
-                  name="confirm"
-                  value={values.confirm}
-                  placeholder="Confirm Password"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                {errors.confirm && touched.confirm && (
-                  <ErrorText>{errors.confirm}</ErrorText>
-                )}
+
                 <ButtonContainer>
                   <button
                     type="submit"
                     className="ui primary button"
-                    style={{ margin: '15px auto 0 auto' }}
+                    style={{
+                      margin: '15px auto 0 auto',
+                      backgroundColor: 'green',
+                    }}
                     onClick={(e) => {
                       handleSubmit(e);
-                      history.push('/onboarding');
                     }}
                   >
-                    Get Started
+                    Save
+                  </button>
+                </ButtonContainer>
+                <ButtonContainer>
+                  <button
+                    type="submit"
+                    className="ui primary button"
+                    style={{
+                      margin: '15px auto 0 auto',
+                      backgroundColor: 'rgba(72,72,72,0.7)',
+                    }}
+                    onClick={() => {
+                      resetForm();
+                    }}
+                  >
+                    Add another contact!
+                  </button>
+                </ButtonContainer>
+                <ButtonContainer
+                  style={{
+                    marginTop: '30px',
+                  }}
+                >
+                  <button
+                    type="submit"
+                    className="ui primary button"
+                    style={{ margin: '15px auto 0 auto' }}
+                    onClick={() => {
+                      history.push('/dashboard');
+                    }}
+                  >
+                    Continue
                   </button>
                 </ButtonContainer>
               </FormContainer>
             </>
           )}
         </Formik>
-      </>
-    </Background>
+      </ContentContainer>
+    </Container>
   );
 };
 
-export default Signup;
+export default AddFriends;

@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import Header from '../components/ui/Header';
 import { Link } from 'react-router-dom';
 
-// TODO: Fix mobile view
-
 const Container = styled.div`
   position: fixed;
   bottom: 0;
@@ -80,35 +78,14 @@ const InputField = styled.input`
   }
 `;
 
-const Main = () => {
-  const [pushURL, setPushURL] = useState('/signup');
-
-  const handleChange = (event: any) => {
-    setPushURL('/signup?email=' + event.target.value);
-  };
-
+const Dashboard = () => {
   return (
     <Container>
       <Header />
-      <ContentContainer>
-        <Content>
-          <LandingTextContainer>
-            <H1>Spark quality conversations by sharing links.</H1>
-            <InputField
-              type="text"
-              name="email"
-              placeholder="Enter email"
-              onChange={handleChange}
-            />
-            <Link to={pushURL}>
-              <button className="ui primary button">Get Started</button>
-            </Link>
-          </LandingTextContainer>
-          <LandingGraphic src="/images/social_sharing.svg" />
-        </Content>
-      </ContentContainer>
+
+      <LandingGraphic src="/images/social_sharing.svg" />
     </Container>
   );
 };
 
-export default Main;
+export default Dashboard;
