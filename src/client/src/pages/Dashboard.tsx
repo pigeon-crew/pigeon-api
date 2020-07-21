@@ -87,7 +87,6 @@ const Dashboard = () => {
       <InstallExtensionModal />
 
       <Container>
-        <Header color={Colors.pink} />
         <ContentContainer>
           <Sidebar />
         </ContentContainer>

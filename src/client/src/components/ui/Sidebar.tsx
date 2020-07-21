@@ -2,13 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Colors from '../../common/Colors';
+import Header from '../../components/ui/Header';
 
 const SidebarContainer = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 25px 0px;
   max-width: 250px;
   width: 100%;
-  margin-top: 20px;
 `;
 
 const SidebarOption = styled.div`
@@ -28,26 +29,47 @@ const SidebarLabel = styled.div`
 
 interface Props {}
 
-const Footer: React.FC<Props> = (props) => {
+interface SidebarOptions {
+  title: string;
+  path?: string;
+}
+
+const options: SidebarOptions[] = [
+  {
+    title: 'Links',
+    path: '/links',
+  },
+  {
+    title: 'Friends List',
+    path: '/',
+  },
+  {
+    title: 'Account',
+    path: '/',
+  },
+  {
+    title: 'Install Extension',
+    path: '/',
+  },
+];
+
+const Sidebar: React.FC<Props> = (props) => {
   return (
     <SidebarContainer>
-      <Link to="/links">
-        <SidebarOption>
-          <SidebarLabel>Links</SidebarLabel>
-        </SidebarOption>
-      </Link>
-
-      <SidebarOption>
-        <SidebarLabel>Friends List</SidebarLabel>
-      </SidebarOption>
-      <SidebarOption>
-        <SidebarLabel>Account</SidebarLabel>
-      </SidebarOption>
-      <SidebarOption>
-        <SidebarLabel>Install Extension</SidebarLabel>
-      </SidebarOption>
+      <Header color={Colors.pink} />
+      {options.map((option) => (
+        <Link
+          to={option.path || '/'}
+          key={option.title + option.path}
+          style={{ color: 'gray' }}
+        >
+          <SidebarOption>
+            <SidebarLabel>{option.title}</SidebarLabel>
+          </SidebarOption>
+        </Link>
+      ))}
     </SidebarContainer>
   );
 };
 
-export default Footer;
+export default Sidebar;
