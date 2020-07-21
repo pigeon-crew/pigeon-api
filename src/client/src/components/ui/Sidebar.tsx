@@ -41,11 +41,11 @@ const options: SidebarOptions[] = [
   },
   {
     title: 'Friends List',
-    path: '/',
+    path: '/friends',
   },
   {
     title: 'Account',
-    path: '/',
+    path: '/account',
   },
   {
     title: 'Install Extension',
