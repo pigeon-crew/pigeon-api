@@ -150,7 +150,7 @@ const Signup = () => {
 
   return (
     <Background>
-      <Header />
+      <Header color={'white'} />
       <>
         <Headline>Pigeon Sign Up</Headline>
         <Formik

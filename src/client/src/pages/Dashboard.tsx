@@ -3,6 +3,7 @@ import { Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 import Header from '../components/ui/Header';
 import { Link } from 'react-router-dom';
+import InstallExtensionModal from '../modals/InstallExtensionModal';
 
 const Container = styled.div`
   position: fixed;
@@ -11,7 +12,7 @@ const Container = styled.div`
   min-width: 100%;
   min-height: 100%;
   opacity: 100%;
-  background-color: #ffa3a3;
+  background-color: white;
 `;
 
 const ContentContainer = styled.div`
@@ -80,11 +81,12 @@ const InputField = styled.input`
 
 const Dashboard = () => {
   return (
-    <Container>
-      <Header />
-
-      <LandingGraphic src="/images/social_sharing.svg" />
-    </Container>
+    <>
+      <InstallExtensionModal />
+      <Container>
+        <Header color={'#ffa3a3'} />
+      </Container>
+    </>
   );
 };
 

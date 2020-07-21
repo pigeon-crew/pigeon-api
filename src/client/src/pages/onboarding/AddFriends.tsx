@@ -146,7 +146,7 @@ const AddFriends: React.FC<Props> = (props) => {
 
   return (
     <Container>
-      <Header />
+      <Header color={'white'} />
       <ContentContainer>
         <H1>Welcome to Pigeon 🎉</H1>
         <SubHeader>

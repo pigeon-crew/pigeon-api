@@ -89,7 +89,7 @@ const Main = () => {
 
   return (
     <Container>
-      <Header />
+      <Header color={'white'} />
       <ContentContainer>
         <Content>
           <LandingTextContainer>

@@ -22,13 +22,23 @@ const PigeonName = styled.div`
   color: white;
 `;
 
-const Header = () => {
+interface Props {
+  color?: string;
+}
+
+const Header: React.FC<Props> = (props) => {
   return (
     <NavBar>
       <Link to="/">
         <Logo>🐦</Logo>
       </Link>
-      <PigeonName>Pigeon</PigeonName>
+      <PigeonName
+        style={{
+          color: props.color,
+        }}
+      >
+        Pigeon
+      </PigeonName>
     </NavBar>
   );
 };
