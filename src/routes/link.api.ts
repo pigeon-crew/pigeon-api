@@ -47,11 +47,11 @@ router.post('/create', auth, async (req, res) => {
 router.post('/me', auth, async (req, res) => {
   const { userId } = req;
 
-  let userLinks = await Link.find({
+  const userLinks = await Link.find({
     $or: [{ recipientId: userId }, { senderId: userId }],
   });
 
-  res.status(200).json({ success: true, data: userLinks });
+  return res.status(200).json({ success: true, data: userLinks });
 });
 
 // TESTING ROUTES BELOW

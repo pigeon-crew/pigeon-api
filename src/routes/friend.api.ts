@@ -39,7 +39,7 @@ router.post('/request', auth, async (req, res) => {
 });
 
 // get my pending friend requests
-router.get('/request', auth, (req, res) => {
+router.post('/request', auth, (req, res) => {
   const { userId } = req;
 
   FriendReq.find({ recipientId: userId })
