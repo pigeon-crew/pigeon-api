@@ -12,8 +12,13 @@ router.post('/create', auth, async (req, res) => {
   const { recipientEmail } = req.body;
   const { userId: senderId } = req;
 
+  // need to check if recipient is sender's friend or not
   const recipient = await User.findOne({ email: recipientEmail });
   if (!recipient) return errorHandler(res, 'Recipient does not exist.');
+
+  const sender = await User.findById(senderId);
+  if (!sender) return errorHandler(res, 'Sender does not exist.');
+
   const recipientId = recipient._id;
   if (recipientId === senderId)
     return errorHandler(res, 'You cannot send links to yourself.');
@@ -22,6 +27,7 @@ router.post('/create', auth, async (req, res) => {
     linkUrl,
     recipientId,
     senderId,
+    senderName: `${sender.firstName} ${sender.lastName}`,
   });
 
   return newLink
@@ -40,7 +46,7 @@ router.post('/create', auth, async (req, res) => {
 // TODO: paginate
 // pagination tutorial:
 // https://softwareontheroad.com/pagination-in-nodejs-mongo/
-router.get('/me', auth, async (req, res) => {
+router.post('/me', auth, async (req, res) => {
   const { userId } = req;
 
   const userLinks = await Link.find({ recipientId: userId });
