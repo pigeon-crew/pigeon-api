@@ -9,15 +9,15 @@ const SidebarContainer = styled.div`
   max-width: 250px;
   width: 100%;
   margin-top: 20px;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 10px;
 `;
 
 const SidebarOption = styled.div`
   cursor: pointer;
   width: 100%;
-  margin: 0 auto 0 auto;
+  margin: 0 auto 20px auto;
   text-align: center;
-  background-color: rgba(72, 72, 72, 0.1);
+  background-color: rgba(72, 72, 72, 0.05);
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 10px;
   padding: 20px 0;
 `;
 
@@ -26,27 +26,24 @@ const SidebarLabel = styled.div`
   font-weight: 500;
 `;
 
-const Footer = () => {
+interface Props {}
+
+const Footer: React.FC<Props> = (props) => {
   return (
     <SidebarContainer>
+      <Link to="/links">
+        <SidebarOption>
+          <SidebarLabel>Links</SidebarLabel>
+        </SidebarOption>
+      </Link>
+
       <SidebarOption>
-        <SidebarLabel>Links</SidebarLabel>
-      </SidebarOption>
-      <SidebarOption
-        style={{
-          backgroundColor: 'white',
-        }}
-      >
         <SidebarLabel>Friends List</SidebarLabel>
       </SidebarOption>
       <SidebarOption>
         <SidebarLabel>Account</SidebarLabel>
       </SidebarOption>
-      <SidebarOption
-        style={{
-          backgroundColor: Colors.pink,
-        }}
-      >
+      <SidebarOption>
         <SidebarLabel>Install Extension</SidebarLabel>
       </SidebarOption>
     </SidebarContainer>

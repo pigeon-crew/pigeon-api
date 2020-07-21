@@ -3,6 +3,7 @@ import Main from './Main';
 import Signup from './Signup';
 import AddFriends from './onboarding/AddFriends';
 import Dashboard from './Dashboard';
+import Links from './Links';
 
 import {
   BrowserRouter as Router,
@@ -19,7 +20,8 @@ const AppRouter = () => {
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/onboarding" component={AddFriends} />
         <Route exact path="/dashboard" component={Dashboard} />
-        <Redirect to="/" />
+        <Route exact path="/dashboard" component={Dashboard} />
+        <Route exact path="/links" component={Links} />
       </Switch>
     </Router>
   );
