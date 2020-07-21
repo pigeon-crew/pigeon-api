@@ -141,6 +141,7 @@ const Signup = () => {
     })
       .then(() => {
         alert('Sign up success');
+        history.push('/onboarding');
       })
       .catch((err: any) => {
         const errMessage = err.response.data.message;
@@ -236,7 +237,6 @@ const Signup = () => {
                     style={{ margin: '15px auto 0 auto' }}
                     onClick={(e) => {
                       handleSubmit(e);
-                      history.push('/onboarding');
                     }}
                   >
                     Get Started
