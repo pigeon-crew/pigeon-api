@@ -98,6 +98,9 @@ const AddFriends: React.FC<Props> = (props) => {
 
   const history = useHistory();
 
+  const [referrals, setReferrals] = useState(0);
+  const [insufficientRefferals, setInsufficientReferrals] = useState(false);
+
   const validateSignUp = (values: FormValues) => {
     const errors = {} as any;
     if (!values.email) {
@@ -222,6 +225,7 @@ const AddFriends: React.FC<Props> = (props) => {
                     }}
                     onClick={(e) => {
                       handleSubmit(e);
+                      setReferrals(referrals + 1);
                     }}
                   >
                     Save
@@ -252,12 +256,19 @@ const AddFriends: React.FC<Props> = (props) => {
                     className="ui primary button"
                     style={{ margin: '15px auto 0 auto' }}
                     onClick={() => {
-                      history.push('/dashboard');
+                      if (referrals >= 1) {
+                        history.push('/dashboard');
+                      } else {
+                        setInsufficientReferrals(true);
+                      }
                     }}
                   >
                     Continue
                   </button>
                 </ButtonContainer>
+                {insufficientRefferals && (
+                  <ErrorText>Invite a contact to proceed</ErrorText>
+                )}
               </FormContainer>
             </>
           )}
