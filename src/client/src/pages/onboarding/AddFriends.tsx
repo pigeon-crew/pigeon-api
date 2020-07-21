@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { ENDPOINT } from '../../utils/config';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import axios from 'axios';
+import Colors from '../../common/Colors';
 
 const Container = styled.div`
   position: fixed;
@@ -14,7 +15,7 @@ const Container = styled.div`
   min-width: 100%;
   min-height: 100%;
   opacity: 100%;
-  background-color: #ffa3a3;
+  background-color: ${Colors.pink};
 `;
 
 const ContentContainer = styled.div`

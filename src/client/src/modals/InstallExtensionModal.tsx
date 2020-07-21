@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 import ModalBackground from './ModalBackground';
+import Colors from '../common/Colors';
 
 const Content = styled.div`
   width: 300px;
@@ -63,7 +64,7 @@ const InstallExtensionModal = () => {
               type="submit"
               className="ui primary button"
               style={{
-                backgroundColor: '#ffa3a3',
+                backgroundColor: Colors.pink,
                 marginTop: '20px',
               }}
               onClick={() => {

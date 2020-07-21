@@ -5,6 +5,7 @@ import Header from '../components/ui/Header';
 import { Link } from 'react-router-dom';
 import InstallExtensionModal from '../modals/InstallExtensionModal';
 import Sidebar from '../components/ui/Sidebar';
+import Colors from '../common/Colors';
 
 const Container = styled.div`
   position: fixed;
@@ -86,7 +87,7 @@ const Dashboard = () => {
       <InstallExtensionModal />
 
       <Container>
-        <Header color={'#ffa3a3'} />
+        <Header color={Colors.pink} />
         <ContentContainer>
           <Sidebar />
         </ContentContainer>

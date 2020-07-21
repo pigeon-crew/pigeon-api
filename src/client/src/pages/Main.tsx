@@ -3,6 +3,7 @@ import { Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 import Header from '../components/ui/Header';
 import { Link } from 'react-router-dom';
+import Colors from '../common/Colors';
 
 // TODO: Fix mobile view
 
@@ -13,7 +14,7 @@ const Container = styled.div`
   min-width: 100%;
   min-height: 100%;
   opacity: 100%;
-  background-color: #ffa3a3;
+  background-color: ${Colors.pink};
 `;
 
 const ContentContainer = styled.div`

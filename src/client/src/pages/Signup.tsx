@@ -9,6 +9,7 @@ import axios, { AxiosError } from 'axios';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import AddFriend from './onboarding/AddFriends';
+import Colors from '../common/Colors';
 
 // TICKETS: Add loading animation to button. Validate email on landing page?
 
@@ -35,7 +36,7 @@ const Background = styled.div`
   min-width: 100%;
   min-height: 100%;
   opacity: 100%;
-  background-color: #ffa3a3;
+  background-color: ${Colors.pink};
 `;
 
 const ButtonContainer = styled.div`

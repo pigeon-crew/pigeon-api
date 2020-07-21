@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import Colors from '../../common/Colors';
 
 const SidebarContainer = styled.div`
   display: flex;
@@ -43,7 +44,7 @@ const Footer = () => {
       </SidebarOption>
       <SidebarOption
         style={{
-          backgroundColor: '#ffa3a3',
+          backgroundColor: Colors.pink,
         }}
       >
         <SidebarLabel>Install Extension</SidebarLabel>
