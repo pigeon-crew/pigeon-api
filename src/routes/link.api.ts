@@ -20,8 +20,6 @@ router.post('/create', auth, async (req, res) => {
   if (!sender) return errorHandler(res, 'Sender does not exist.');
 
   const recipientId = recipient._id;
-  if (recipientId === senderId)
-    return errorHandler(res, 'You cannot send links to yourself.');
 
   const newLink = new Link({
     linkUrl,
@@ -49,7 +47,9 @@ router.post('/create', auth, async (req, res) => {
 router.post('/me', auth, async (req, res) => {
   const { userId } = req;
 
-  const userLinks = await Link.find({ recipientId: userId });
+  let userLinks = [];
+  userLinks.push(await Link.find({ recipientId: userId }));
+  userLinks.push(await Link.find({ senderId: userId }));
 
   res.status(200).json({ success: true, data: userLinks });
 });
