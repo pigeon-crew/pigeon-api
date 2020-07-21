@@ -11,6 +11,7 @@ const Content = styled.div`
   margin: auto;
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 10px;
+  text-align: center;
 `;
 
 const Header = styled.div`
@@ -22,9 +23,20 @@ const Header = styled.div`
   margin: auto;
 `;
 
+const Title = styled.h1`
+  text-align: center;
+`;
+
+const Desc = styled.p`
+  text-align: center;
+  margin: 0 20px 0 20px;
+`;
+
 const CloseButton = styled.img`
   cursor: pointer;
 `;
+
+// TODO: Need to add a cool graphic here
 
 const InstallExtensionModal = () => {
   const [show, setShow] = useState(true);
@@ -41,8 +53,25 @@ const InstallExtensionModal = () => {
                 }}
               />
             </Header>
-            <h1>Add Pigeon to your browser</h1>
-            <p>*Insert Instructions*</p>
+            <Title>Add Pigeon to your browser</Title>
+            <Desc>
+              Our chrome extension is central to your Pigeon experience,
+              allowing you to share links with friends and family as fast as
+              possible.{' '}
+            </Desc>
+            <button
+              type="submit"
+              className="ui primary button"
+              style={{
+                backgroundColor: '#ffa3a3',
+                marginTop: '20px',
+              }}
+              onClick={() => {
+                alert('Link to Chrome web store');
+              }}
+            >
+              Install the Pigeon Chrome Extension
+            </button>
           </Content>
         </ModalBackground>
       )}
