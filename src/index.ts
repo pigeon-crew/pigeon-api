@@ -10,6 +10,7 @@ import './utils/config';
 import userRouter from './routes/user.api';
 import friendReqRouter from './routes/friend.api';
 import linkRouter from './routes/link.api';
+import emailRouter from './routes/email.api';
 
 const app = express();
 
@@ -34,6 +35,7 @@ if (process.env.NODE_ENV === 'production') {
 app.use('/api/users', userRouter);
 app.use('/api/friends', friendReqRouter);
 app.use('/api/links', linkRouter);
+app.use('/api/email', emailRouter);
 
 const server = app.listen(app.get('port'), () => {
   console.log(`Listening on port ${app.get('port')} 🚀`);

@@ -142,6 +142,17 @@ const Signup = () => {
       .then(() => {
         alert('Sign up success');
         history.push('/onboarding');
+        axios({
+          url: `${ENDPOINT}/api/email/send`,
+          method: 'POST',
+          timeout: 0,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          data: JSON.stringify({
+            email: values.email,
+          }),
+        });
       })
       .catch((err: any) => {
         const errMessage = err.response.data.message;
