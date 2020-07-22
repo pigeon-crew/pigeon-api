@@ -23,7 +23,7 @@ const Container = styled.div`
 const ContentContainer = styled.div`
   display: flex;
   height: 600px;
-  max-width: 80%;
+  max-width: 90%;
   margin-right: auto;
   margin-left: auto;
 `;
