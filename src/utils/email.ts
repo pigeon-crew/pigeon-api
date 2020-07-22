@@ -8,9 +8,9 @@ export class Email {
   private static instance: Email;
 
   // eslint-disable-next-line class-methods-use-this
-  public sendTemplate() {
+  public sendTemplate(email: string) {
     const msg = {
-      to: 'leyton.ho@gmail.com',
+      to: email,
       from: 'leyton_ho@brown.edu',
       subject: 'Welcome to Pigeon',
       text: 'Sparl great conversations with friends through link sharing',
