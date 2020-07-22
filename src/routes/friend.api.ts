@@ -11,13 +11,15 @@ router.post('/request', auth, async (req, res) => {
   const { recipientEmail } = req.body;
   const { userId: requesterId } = req;
 
-  return User.findOne({ email: recipientEmail }).then((recipient) => {
-    if (!recipient) {
-      return errorHandler(res, 'Recipient does not exist');
-    }
+  return User.findOne({ email: recipientEmail }).then(async (recipient) => {
+    if (!recipient) return errorHandler(res, 'Recipient does not exist');
+
     const recipientId = recipient._id;
     if (recipientId === requesterId)
       return errorHandler(res, 'You cannot friend yourself.');
+
+    const requester = await User.findById(requesterId);
+    if (!requester) return errorHandler(res, 'Invalid user');
 
     // TODO
     // check if requester already sent a request
@@ -25,6 +27,7 @@ router.post('/request', auth, async (req, res) => {
 
     const newFriendReq = new FriendReq({
       requesterId,
+      requesterName: `${requester.firstName} ${requester.lastName}`,
       recipientId,
       status: FriendReqStatus.requested,
     });
@@ -46,17 +49,15 @@ router.post('/request', auth, async (req, res) => {
 router.post('/pending', auth, (req, res) => {
   const { userId } = req;
 
-  FriendReq.find({ recipientId: userId })
+  FriendReq.find({
+    $and: [{ recipientId: userId }, { status: FriendReqStatus.requested }],
+  })
     .then((friendReqs) => {
       if (!friendReqs) {
         return errorHandler(res, 'Invalid recipient id');
       }
-      // only return reqs that are pending
-      const pendingReqs = friendReqs.filter(
-        (val) => val.status === FriendReqStatus.requested
-      );
 
-      return res.status(200).json({ success: true, data: pendingReqs });
+      return res.status(200).json({ success: true, data: friendReqs });
     })
     .catch((err) => {
       return errorHandler(res, err.message);

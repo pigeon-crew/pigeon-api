@@ -11,12 +11,17 @@ enum FriendReqStatus {
 interface IFriendReq extends mongoose.Document {
   _id: string;
   requesterId: string;
+  requesterName: string;
   recipientId: string;
   status: FriendReqStatus;
 }
 
 const FriendReqSchema = new Schema({
   requesterId: {
+    type: String,
+    required: true,
+  },
+  requesterName: {
     type: String,
     required: true,
   },
