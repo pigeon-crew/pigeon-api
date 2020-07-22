@@ -11,6 +11,7 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
+import FAQ from './FAQ';
 
 const AppRouter = () => {
   return (
@@ -18,6 +19,7 @@ const AppRouter = () => {
       <Switch>
         <Route exact path="/" component={Main} />
         <Route exact path="/signup" component={Signup} />
+        <Route exact path="/faq" component={FAQ} />
         <Route exact path="/onboarding" component={AddFriends} />
         <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/dashboard" component={Dashboard} />
