@@ -29,6 +29,7 @@ app.use('/api/friends', friendReqRouter);
 app.use('/api/links', linkRouter);
 app.use('/api/email', emailRouter);
 
+// Serving React static file
 if (process.env.NODE_ENV === 'production') {
   const root = path.join(__dirname, 'client', 'build');
 
