@@ -1,5 +1,5 @@
 import express from 'express';
-import { Link } from '../models/link.model';
+import { Link, ILink } from '../models/link.model';
 import { User } from '../models/user.model';
 import errorHandler from './error';
 import auth from '../middleware/auth';
@@ -47,11 +47,14 @@ router.post('/create', auth, async (req, res) => {
 router.post('/me', auth, async (req, res) => {
   const { userId } = req;
 
-  const userLinks = await Link.find({
+  Link.find({
     $or: [{ recipientId: userId }, { senderId: userId }],
-  });
-
-  return res.status(200).json({ success: true, data: userLinks });
+  })
+    .sort({ timestamp: 'desc' })
+    .exec((err, links) => {
+      if (err) return errorHandler(res, err.message);
+      return res.status(200).json({ success: true, links });
+    });
 });
 
 // TESTING ROUTES BELOW
