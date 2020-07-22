@@ -80,7 +80,7 @@ router.post('/login', async (req, res) => {
 });
 
 // refresh token
-router.post('/refreshToken', (req, res) => {
+router.get('/refreshToken', (req, res) => {
   const { refreshToken } = req.body;
   if (!refreshToken) {
     return errorHandler(res, 'No token provided.');
@@ -104,7 +104,7 @@ router.post('/refreshToken', (req, res) => {
 
 // TESTING ROUTES BELOW
 // get all users
-router.post('/', (_, res) => {
+router.get('/', (_, res) => {
   User.find({})
     .then((result) => res.status(200).json({ success: true, result }))
     .catch((e) => errorHandler(res, e));

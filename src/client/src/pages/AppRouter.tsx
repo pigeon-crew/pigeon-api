@@ -23,6 +23,7 @@ const AppRouter = () => {
         <Route exact path="/links" component={Links} />
         <Route exact path="/account" component={AccountSettings} />
         <Route exact path="/friends" component={FriendsList} />
+        <Redirect to="/" />
       </Switch>
     </Router>
   );

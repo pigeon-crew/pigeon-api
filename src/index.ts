@@ -22,6 +22,14 @@ app.set('port', process.env.PORT || 5000);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+
+// API Routes
+app.use('/api/users', userRouter);
+app.use('/api/friends', friendReqRouter);
+app.use('/api/links', linkRouter);
+app.use('/api/email', emailRouter);
+
+// Serving React static file
 if (process.env.NODE_ENV === 'production') {
   const root = path.join(__dirname, 'client', 'build');
 
@@ -31,15 +39,9 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// API Routes
-app.use('/api/users', userRouter);
-app.use('/api/friends', friendReqRouter);
-app.use('/api/links', linkRouter);
-app.use('/api/email', emailRouter);
-
 const server = app.listen(app.get('port'), () => {
   console.log(`Listening on port ${app.get('port')} 🚀`);
-  console.log('  Press Command C to stop\n');
+  console.log('  Press Ctrl C to stop\n');
 });
 
 const io = socket(server);
