@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 import Header from '../components/ui/Header';
+import Footer from '../components/ui/Footer';
 import { Link } from 'react-router-dom';
 import Colors from '../common/Colors';
 
@@ -108,6 +109,7 @@ const Main = () => {
           <LandingGraphic src="/images/social_sharing.svg" />
         </Content>
       </ContentContainer>
+      <Footer color={'white'} />
     </Container>
   );
 };
