@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Colors from '../../common/Colors';
-import Header from '../../components/ui/Header';
 
 const SidebarContainer = styled.div`
   display: flex;
@@ -10,15 +9,18 @@ const SidebarContainer = styled.div`
   padding: 25px 0px;
   max-width: 200px;
   width: 100%;
-  /*border-right: 1px solid;*/
+  min-height: 100vh;
+  border-right: 1px solid rgba(72, 72, 72, 0.2);
 `;
+
+// TODO: Add selected button styling
 
 const SidebarOption = styled.div`
   display: flex;
   justify-content: flex-start;
   cursor: pointer;
-  width: 100%;
-  margin: 0 auto 20px auto;
+  width: 90%;
+  margin: 0 auto 20px 0;
   text-align: center;
   background-color: rgba(72, 72, 72, 0.05);
   padding: 15px 0;
@@ -27,7 +29,7 @@ const SidebarOption = styled.div`
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 10px;
     opacity: 0.9;
-    background-color: rgba(255, 163, 163, 0.2);
+    background-color: rgba(255, 163, 163, 0.15);
   }
   &:active {
     opacity: 0.6;
