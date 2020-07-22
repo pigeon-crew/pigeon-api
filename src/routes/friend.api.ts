@@ -1,6 +1,6 @@
 import express from 'express';
 import { FriendReq, FriendReqStatus } from '../models/friendReq.model';
-import { User } from '../models/user.model';
+import { User, IUser } from '../models/user.model';
 import errorHandler from './error';
 import auth from '../middleware/auth';
 
@@ -18,6 +18,10 @@ router.post('/request', auth, async (req, res) => {
     const recipientId = recipient._id;
     if (recipientId === requesterId)
       return errorHandler(res, 'You cannot friend yourself.');
+
+    // TODO
+    // check if requester already sent a request
+    // if so, delete the previous request
 
     const newFriendReq = new FriendReq({
       requesterId,
@@ -39,7 +43,7 @@ router.post('/request', auth, async (req, res) => {
 });
 
 // get my pending friend requests
-router.post('/request', auth, (req, res) => {
+router.post('/pending', auth, (req, res) => {
   const { userId } = req;
 
   FriendReq.find({ recipientId: userId })
@@ -53,6 +57,31 @@ router.post('/request', auth, (req, res) => {
       );
 
       return res.status(200).json({ success: true, data: pendingReqs });
+    })
+    .catch((err) => {
+      return errorHandler(res, err.message);
+    });
+});
+
+// get all of my current friends
+router.post('/current', auth, (req, res) => {
+  const { userId } = req;
+
+  return User.findById(userId)
+    .then(async (user) => {
+      if (!user) {
+        return errorHandler(res, 'User does not exists');
+      }
+
+      const friendsIds = user.friendships;
+
+      const friends = await User.find({
+        _id: {
+          $in: friendsIds,
+        },
+      }).select('firstName lastName email _id');
+
+      return res.status(200).json({ success: true, data: friends });
     })
     .catch((err) => {
       return errorHandler(res, err.message);
