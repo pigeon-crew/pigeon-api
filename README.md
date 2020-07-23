@@ -19,6 +19,7 @@ Create file called ".env.development" in root directory, it should look like the
 ```
 ATLAS_URI=mongodb-connection-string-placeholder
 JWT_SECRET=my-secret-jwt-key-placeholder
+SENDGRID_API_KEY=sendgrid-api-key-placeholder
 ```
 
 Then, create another file called ".env" in "src/client", it should look like the following:
