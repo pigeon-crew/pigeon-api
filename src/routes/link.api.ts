@@ -60,7 +60,7 @@ router.get('/me', auth, async (req, res) => {
 
 // TESTING ROUTES BELOW
 // get all links
-router.post('/', (_, res) => {
+router.get('/', (_, res) => {
   Link.find({})
     .then((result) => res.status(200).json({ success: true, result }))
     .catch((e) => errorHandler(res, e));
