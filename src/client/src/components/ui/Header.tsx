@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 
 const NavBar = styled.div`
   max-width: 80%;
-  margin: 34px auto 20px auto;
+  padding-top: 34px;
+  padding-bottom: 20px;
+  margin: auto;
   display: flex;
 `;
 
