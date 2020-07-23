@@ -95,6 +95,6 @@ This is probably one of most complex parts in the project. Essentially, rather t
 
 The API's in this projects are divided into three main groups.
 
-User API - handling logic including Signup, Login, and Fetch Refresh Token
-Friend API - handling logic including Send Friend Requests, Get Pending Requests, Accept / Reject Requests, and Get Current Friends
-Link Sharing API - handling logic including Sending New Links, and Getting Links Sent to / by Me
+- User API - handling logic including Signup, Login, and Fetch Refresh Token
+- Friend API - handling logic including Send Friend Requests, Get Pending Requests, Accept / Reject Requests, and Get Current Friends
+- Link Sharing API - handling logic including Sending New Links, and Getting Links Sent to / by Me
