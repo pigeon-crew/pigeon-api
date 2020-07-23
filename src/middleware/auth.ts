@@ -1,10 +1,8 @@
 import { verify } from 'jsonwebtoken';
-import '../utils/config';
 import * as express from 'express';
 import errorHandler from '../routes/error';
 import { IUser, User } from '../models/user.model';
-
-const { JWT_SECRET } = process.env;
+import { JWT_SECRET } from '../utils/config';
 
 const auth = (
   req: express.Request,

@@ -1,6 +1,6 @@
 import sgMail from '@sendgrid/mail';
+import { SENDGRID_API_KEY } from './config';
 
-const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY || '';
 sgMail.setApiKey(SENDGRID_API_KEY);
 
 // eslint-disable-next-line import/prefer-default-export

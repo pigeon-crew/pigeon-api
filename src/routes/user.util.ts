@@ -1,9 +1,7 @@
 import { sign, verify } from 'jsonwebtoken';
 import * as _ from 'lodash';
 import { User, IUser } from '../models/user.model';
-import '../utils/config';
-
-const { JWT_SECRET } = process.env;
+import { JWT_SECRET } from '../utils/config';
 
 class AuthError extends Error {
   code: string;
@@ -15,12 +13,12 @@ class AuthError extends Error {
 }
 
 const generateAccessToken = (user: IUser): string =>
-  sign(_.omit(user.toObject(), 'password'), JWT_SECRET!, {
+  sign(_.omit(user.toObject(), 'password'), JWT_SECRET, {
     expiresIn: '15s', // for testing purposes
   });
 
 const generateRefreshToken = (user: IUser): any => {
-  const refreshToken = sign({ type: 'refresh' }, JWT_SECRET!, {
+  const refreshToken = sign({ type: 'refresh' }, JWT_SECRET, {
     expiresIn: '9999 years',
   });
 

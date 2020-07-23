@@ -2,8 +2,8 @@ import express from 'express';
 import sgMail from '@sendgrid/mail';
 import { Email } from '../utils/email';
 import errorHandler from './error';
+import { SENDGRID_API_KEY } from '../utils/config';
 
-const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY || '';
 sgMail.setApiKey(SENDGRID_API_KEY);
 
 const router = express.Router();
