@@ -21,9 +21,14 @@ router.post('/request', auth, async (req, res) => {
     const requester = await User.findById(requesterId);
     if (!requester) return errorHandler(res, 'Invalid user');
 
-    // TODO
-    // check if requester already sent a request
-    // if so, delete the previous request
+    // check if user is friend already
+    if (requester.friendships.includes(recipientId))
+      return errorHandler(res, 'Recipient is friend already.');
+
+    // delete any previous requests
+    await FriendReq.deleteMany({
+      $and: [{ recipientId }, { requesterId }],
+    });
 
     const newFriendReq = new FriendReq({
       requesterId,
@@ -46,7 +51,7 @@ router.post('/request', auth, async (req, res) => {
 });
 
 // get my pending friend requests
-router.post('/pending', auth, (req, res) => {
+router.get('/pending', auth, (req, res) => {
   const { userId } = req;
 
   FriendReq.find({
@@ -65,7 +70,7 @@ router.post('/pending', auth, (req, res) => {
 });
 
 // get all of my current friends
-router.post('/current', auth, (req, res) => {
+router.get('/current', auth, (req, res) => {
   const { userId } = req;
 
   return User.findById(userId)

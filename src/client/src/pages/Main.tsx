@@ -42,7 +42,7 @@ const DescriptionContainer = styled.div`
   max-width: 80%;
   margin-left: auto;
   margin-right: auto;
-  align-items:center;
+  align-items: center;
   padding-bottom: 20%;
 `;
 
@@ -73,7 +73,7 @@ const TopContainer = styled.div`
   max-width: 80%;
   margin-left: 32%;
   margin-right: auto;
-  align-items:center;
+  align-items: center;
 `;
 
 const Content = styled.div`
@@ -94,9 +94,9 @@ const ModuleBox = styled.div`
 `;
 
 const Spacer = styled.div`
-    margin-left: 5%;
-    display: block;
-  `;
+  margin-left: 5%;
+  display: block;
+`;
 
 const ModuleImage = styled.img`
   align: center;
@@ -127,7 +127,7 @@ const ModuleImage3 = styled.img`
   max-height: 75%;
   display: block;
   padding-top: 5%;
-  margin-bottom:-2%;
+  margin-bottom: -2%;
 `;
 
 const H2 = styled.h2`
@@ -145,7 +145,7 @@ const H2 = styled.h2`
 
 const H3 = styled.h3`
   font-size: 16px;
-  color: 	#282828;
+  color: #282828;
   text-align: left;
   padding-left: 2px;
   font-family: 'Avenir';
@@ -183,7 +183,7 @@ const H11 = styled.h1`
 const H12 = styled.h1`
   font-size: 33px;
   margin-bottom: -12px;
-  text-align:left;
+  text-align: left;
   color: white;
 `;
 
@@ -194,7 +194,6 @@ const LandingGraphic = styled.img`
   justify-content: flex-end;
   align-items: center;
 `;
-
 
 const InputField = styled.input`
   width: 200px;
@@ -249,40 +248,48 @@ const Main = () => {
         </Content>
       </ContentContainer>
       <DescriptionContainer>
-        <DescriptionGraphic src = "/images/linked.svg"/>
+        <DescriptionGraphic src="/images/linked.svg" />
         <DescriptionTextContainer>
           <H12>What is Pigeon?</H12>
-          <H3>Pigeon is the fastest way to share links with friends. We make link-sharing social by
-          helping to organize and keep track of links you send to friends!</H3>
-        <H12>How does Pigeon work?</H12>
-        <H3>When you sign up for Pigeon, you can add your friends and tell us how you want to contact them. Whenever
-        you want to send a link, just hit Cmd+E to activate our extension! We make it easy to search your contacts and send links quickly.</H3>
-        <H12>How do I use Pigeon?</H12>
-        <H3>Sign up to join our early access program above! Our extension will soon be available on the chrome webstore.</H3>
-      </DescriptionTextContainer>
+          <H3>
+            Pigeon is the fastest way to share links with friends. We make
+            link-sharing social by helping to organize and keep track of links
+            you send to friends!
+          </H3>
+          <H12>How does Pigeon work?</H12>
+          <H3>
+            When you sign up for Pigeon, you can add your friends and tell us
+            how you want to contact them. Whenever you want to send a link, just
+            hit Cmd+E to activate our extension! We make it easy to search your
+            contacts and send links quickly.
+          </H3>
+          <H12>How do I use Pigeon?</H12>
+          <H3>
+            Sign up to join our early access program above! Our extension will
+            soon be available on the chrome webstore.
+          </H3>
+        </DescriptionTextContainer>
       </DescriptionContainer>
       <TopContainer>
         <H11>Pigeon is designed to help you when</H11>
       </TopContainer>
-            <BelowContainer>
-                <ModuleBox>
-                  <ModuleImage src="/images/hangout.png"/>
-                  <H2>You're scrambling to share a Google Doc link on Zoom</H2>
-                </ModuleBox>
-                <Spacer></Spacer>
-                <ModuleBox>
-                  <ModuleImage2 src="/images/question.png"/>
-                  <H2>You lost an important link that your friend shared with you</H2>
-                </ModuleBox>
-                <Spacer></Spacer>
-                <ModuleBox>
-                  <ModuleImage3 src="/images/friends.png"/>
-                  <H2>You want to check out what's trending among your friends</H2>
-                </ModuleBox>
-              </BelowContainer>
-
+      <BelowContainer>
+        <ModuleBox>
+          <ModuleImage src="/images/hangout.png" />
+          <H2>You're scrambling to share a Google Doc link on Zoom</H2>
+        </ModuleBox>
+        <Spacer></Spacer>
+        <ModuleBox>
+          <ModuleImage2 src="/images/question.png" />
+          <H2>You lost an important link that your friend shared with you</H2>
+        </ModuleBox>
+        <Spacer></Spacer>
+        <ModuleBox>
+          <ModuleImage3 src="/images/friends.png" />
+          <H2>You want to check out what's trending among your friends</H2>
+        </ModuleBox>
+      </BelowContainer>
     </Container>
-
   );
 };
 
