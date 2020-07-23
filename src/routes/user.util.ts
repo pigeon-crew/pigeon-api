@@ -13,10 +13,9 @@ class AuthError extends Error {
 }
 
 const generateAccessToken = (user: IUser): string =>
-  sign(_.omit(user.toObject(), 'password'), JWT_SECRET, {
+  sign(_.omit(user.toObject(), 'password'), JWT_SECRET!, {
     expiresIn: '9999 years', // for testing purposes
   });
-
 const generateRefreshToken = (user: IUser): any => {
   const refreshToken = sign({ type: 'refresh' }, JWT_SECRET, {
     expiresIn: '9999 years',
