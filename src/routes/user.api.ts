@@ -7,6 +7,7 @@ import {
   generateRefreshToken,
   validateRefreshToken,
 } from './user.util';
+import auth from '../middleware/auth';
 
 const router = express.Router();
 
@@ -100,6 +101,20 @@ router.get('/refreshToken', (req, res) => {
       }
       return errorHandler(res, err.message);
     });
+});
+
+// me
+router.get('/me', auth, (req, res) => {
+  const { userId } = req;
+
+  return User.findById(userId)
+    .select('firstName lastName email _id')
+    .then((user) => {
+      if (!user) return errorHandler(res, 'User does not exist.');
+
+      return res.status(200).json({ success: true, data: user });
+    })
+    .catch((err) => errorHandler(res, err.message));
 });
 
 // TESTING ROUTES BELOW
