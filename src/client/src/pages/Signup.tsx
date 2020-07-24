@@ -155,8 +155,10 @@ const Signup = () => {
         });
       })
       .catch((err: any) => {
-        const errMessage = err.response.data.message;
-        alert(errMessage);
+        if (err && err.response && err.response.data) {
+          const errMessage = err.response.data.message;
+          alert(errMessage);
+        }
       });
     setSubmitting(false);
   };
