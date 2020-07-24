@@ -1,7 +1,7 @@
-import { verify } from 'jsonwebtoken';
 import * as express from 'express';
+import { verify } from 'jsonwebtoken';
+import { IUser } from '../models/user.model';
 import errorHandler from '../routes/error';
-import { IUser, User } from '../models/user.model';
 import { JWT_SECRET } from '../utils/config';
 
 const auth = (

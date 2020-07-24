@@ -1,8 +1,8 @@
 import express from 'express';
-import { FriendReq, FriendReqStatus } from '../models/friendReq.model';
-import { User, IUser } from '../models/user.model';
-import errorHandler from './error';
 import auth from '../middleware/auth';
+import { FriendReq, FriendReqStatus } from '../models/friendReq.model';
+import { User } from '../models/user.model';
+import errorHandler from './error';
 
 const router = express.Router();
 

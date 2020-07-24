@@ -1,8 +1,8 @@
 import express from 'express';
-import { Link, ILink } from '../models/link.model';
+import auth from '../middleware/auth';
+import { Link } from '../models/link.model';
 import { User } from '../models/user.model';
 import errorHandler from './error';
-import auth from '../middleware/auth';
 
 const router = express.Router();
 

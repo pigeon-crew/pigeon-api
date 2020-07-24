@@ -1,13 +1,13 @@
+import { compare, hash } from 'bcrypt';
 import express from 'express';
-import { hash, compare } from 'bcrypt';
-import { User, IUser } from '../models/user.model';
+import auth from '../middleware/auth';
+import { IUser, User } from '../models/user.model';
 import errorHandler from './error';
 import {
   generateAccessToken,
   generateRefreshToken,
   validateRefreshToken,
 } from './user.util';
-import auth from '../middleware/auth';
 
 const router = express.Router();
 
@@ -50,10 +50,10 @@ router.post('/login', async (req, res) => {
   const { password } = req.body;
 
   User.findOne({ email }).then((user):
-    | Response
-    | Promise<boolean>
-    | boolean
-    | PromiseLike<boolean> => {
+  | Response
+  | Promise<boolean>
+  | boolean
+  | PromiseLike<boolean> => {
     // user does not exist
     if (!user) return errorHandler(res, 'User email or password is incorrect.');
 
