@@ -12,6 +12,8 @@ import friendReqRouter from './routes/friend.api';
 import linkRouter from './routes/link.api';
 import emailRouter from './routes/email.api';
 
+import onConnection from './sockets/index';
+
 const app = express();
 
 connectToDatabase((err) => {
@@ -44,13 +46,9 @@ const server = app.listen(app.get('port'), () => {
   console.log('  Press Ctrl C to stop\n');
 });
 
+// Setting up socket server
 const io = socket(server);
-io.on('connection', (soc) => {
-  console.log('Connected...');
-  soc.on('disconnect', () => {
-    console.log('Disconnected');
-  });
-});
+io.on('connection', (client) => onConnection(client, io));
 
 app.set('socketio', io);
 
