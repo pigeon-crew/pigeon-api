@@ -31,7 +31,7 @@ const BelowContainer = styled.div`
   max-width: 80%;
   margin-left: 16%;
   margin-right: auto;
-  align-items:center
+  align-items: center;
   justify-content: space-between;
 `;
 
@@ -81,6 +81,10 @@ const Content = styled.div`
   width: 100%;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 786px) {
+    flex-direction: column;
+  }
 `;
 
 const ModuleBox = styled.div`

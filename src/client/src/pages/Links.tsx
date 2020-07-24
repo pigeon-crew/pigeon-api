@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 import Header from '../components/ui/Header';
@@ -25,8 +25,18 @@ const LinkContainer = styled.div`
 `;
 
 const Links = () => {
+  useEffect(() => {
+    const visited = localStorage.getItem('visited');
+    console.log('Visited');
+    console.log(visited);
+    if (!visited) {
+      setRenderModal(true);
+      localStorage.setItem('visited', '1');
+    }
+  }, []);
+  const [renderModal, setRenderModal] = useState(false);
   return (
-    <Dashboard installExtensionOpen={true}>
+    <Dashboard installExtensionOpen={renderModal}>
       <Body>
         <h1>Your Links</h1>
         <p>TODO: Make sidebar resusable</p>
