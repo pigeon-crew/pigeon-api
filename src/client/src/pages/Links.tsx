@@ -7,7 +7,7 @@ import { ENDPOINT } from '../utils/config';
 import axios from 'axios';
 
 const Body = styled.div`
-  margin: 100px auto 0 auto;
+  margin: 80px 0 0 50px;
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -71,7 +71,8 @@ const Links = () => {
     <Dashboard installExtensionOpen={renderModal}>
       <Body>
         <h1>Your Links</h1>
-        <p>TODO: Make sidebar resusable</p>
+        <p>Use metadata to make this look pretty</p>
+        <p>Will have link boxes with image, description, link (like Pocket)</p>
         <LinkContainer>
           <p>google.com</p>
         </LinkContainer>
