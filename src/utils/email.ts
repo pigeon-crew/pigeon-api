@@ -6,8 +6,10 @@ sgMail.setApiKey(SENDGRID_API_KEY);
 type Email = {
   to: string;
   from: string;
-  subject: string;
-  html: string;
+  template_id: string;
+  dynamic_template_data: {
+    firstName: string;
+  };
 };
 
 const validateEmail = (email: string): boolean => {

@@ -11,8 +11,10 @@ router.post('/send', async (req, res) => {
   const payload = {
     to: email,
     from: SENDGRID_EMAIL,
-    subject: 'Welcome to Pigeon',
-    html: '<strong>Testing email</strong>',
+    template_id: 'd-eb590ef4bbe4415eb4afd675b0b03dbc',
+    dynamic_template_data: {
+            "firstName": "Alexandr"
+          },
   };
 
   try {
