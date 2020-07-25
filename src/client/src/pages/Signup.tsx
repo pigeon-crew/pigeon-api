@@ -153,6 +153,31 @@ const Signup = () => {
             email: values.email,
           }),
         });
+
+        axios({
+          url: `${ENDPOINT}/api/users/login`,
+          method: 'POST',
+          timeout: 0,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          data: JSON.stringify({
+            email: values.email,
+            password: values.password,
+          }),
+        })
+          .then((response) => {
+            localStorage.setItem(
+              'pigeonAccessToken',
+              JSON.stringify({ accessToken: response.data.accessToken })
+            );
+          })
+          .catch((err: any) => {
+            if (err && err.response && err.response.data) {
+              const errMessage = err.response.data.message;
+              alert(errMessage);
+            }
+          });
       })
       .catch((err: any) => {
         if (err && err.response && err.response.data) {
@@ -160,6 +185,7 @@ const Signup = () => {
           alert(errMessage);
         }
       });
+
     setSubmitting(false);
   };
 
