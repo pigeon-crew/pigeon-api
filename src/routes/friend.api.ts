@@ -3,6 +3,8 @@ import auth from '../middleware/auth';
 import { FriendReq, FriendReqStatus } from '../models/friendReq.model';
 import { User } from '../models/user.model';
 import errorHandler from './error';
+import sendEmail from '../utils/email';
+import { SENDGRID_EMAIL } from '../utils/config';
 
 const router = express.Router();
 
@@ -12,7 +14,23 @@ router.post('/request', auth, async (req, res) => {
   const { userId: requesterId } = req;
 
   return User.findOne({ email: recipientEmail }).then(async (recipient) => {
-    if (!recipient) return errorHandler(res, 'Recipient does not exist');
+    const sender = await User.findById(requesterId);
+    if (!sender) return errorHandler(res, 'Sender does not exist.');
+    const senderName = `${sender.firstName} ${sender.lastName}`;
+
+    if (!recipient) {
+      const email = {
+        to: recipientEmail,
+        from: SENDGRID_EMAIL,
+        subject: `${senderName} invited you to Pigeon!`,
+        html: 'Create an account on Pigeon now!',
+      };
+      await sendEmail(email);
+      return res.status(200).json({
+        success: true,
+        message: 'Recipient does not exist. Invited via email.',
+      });
+    }
 
     const recipientId = recipient._id;
     if (recipientId === requesterId)
