@@ -3,26 +3,15 @@ import { SENDGRID_API_KEY } from './config';
 
 sgMail.setApiKey(SENDGRID_API_KEY);
 
-// eslint-disable-next-line import/prefer-default-export
-export class Email {
-  private static instance: Email;
+type Email = {
+  to: string;
+  from: string;
+  subject: string;
+  html: string;
+};
 
-  // eslint-disable-next-line class-methods-use-this
-  public sendTemplate(email: string) {
-    const msg = {
-      to: email,
-      from: 'leyton_ho@brown.edu',
-      subject: 'Welcome to Pigeon',
-      text: 'Sparl great conversations with friends through link sharing',
-      html: '<strong>Testing email</strong>',
-    };
-    sgMail.send(msg);
-  }
+const sendEmail = (email: Email) => {
+  sgMail.send(email);
+};
 
-  static getInstance() {
-    if (!this.instance) {
-      this.instance = new this();
-    }
-    return this.instance;
-  }
-}
+export default sendEmail;

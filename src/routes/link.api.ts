@@ -3,6 +3,8 @@ import auth from '../middleware/auth';
 import { Link } from '../models/link.model';
 import { User } from '../models/user.model';
 import errorHandler from './error';
+import sendEmail from '../utils/email';
+import { SENDGRID_EMAIL } from '../utils/config';
 
 const router = express.Router();
 
@@ -12,12 +14,23 @@ router.post('/create', auth, async (req, res) => {
   const { recipientEmail } = req.body;
   const { userId: senderId } = req;
 
-  const recipient = await User.findOne({ email: recipientEmail });
-  if (!recipient) return errorHandler(res, 'Recipient does not exist.');
-  const recipientId = recipient._id;
-
   const sender = await User.findById(senderId);
   if (!sender) return errorHandler(res, 'Sender does not exist.');
+  const senderName = `${sender.firstName} ${sender.lastName}`;
+
+  const recipient = await User.findOne({ email: recipientEmail });
+  if (!recipient) {
+    // construct email object
+    const email = {
+      to: recipientEmail,
+      from: SENDGRID_EMAIL,
+      subject: 'You have a new link',
+      html: `<p>${senderName} just sent you a new link here: ${linkUrl}<p>`,
+    };
+    await sendEmail(email);
+    return res.status(200).json({ success: true, message: 'New link sent.' });
+  }
+  const recipientId = recipient._id;
 
   if (!sender.friendships.includes(recipientId))
     return errorHandler(res, 'Recipient is not your friend yet.');
@@ -26,7 +39,7 @@ router.post('/create', auth, async (req, res) => {
     linkUrl,
     recipientId,
     senderId,
-    senderName: `${sender.firstName} ${sender.lastName}`,
+    senderName,
   });
 
   return newLink

@@ -18,5 +18,6 @@ switch (process.env.NODE_ENV) {
 const ATLAS_URI = process.env.ATLAS_URI || '';
 const JWT_SECRET = process.env.JWT_SECRET || '';
 const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY || '';
+const SENDGRID_EMAIL = 'leyton_ho@brown.edu';
 
-export { ATLAS_URI, JWT_SECRET, SENDGRID_API_KEY };
+export { ATLAS_URI, JWT_SECRET, SENDGRID_API_KEY, SENDGRID_EMAIL };
