@@ -7,7 +7,7 @@ import Sidebar from '../ui/Sidebar';
 
 interface Props {
   children: any;
-  installExtensionOpen: boolean;
+  installExtensionOpen?: boolean;
 }
 
 const Container = styled.div`
