@@ -18,7 +18,7 @@ router.post('/send', async (req, res) => {
   };
 
   try {
-    await sendEmail(payload);
+    await sendSignUpEmail(payload);
     return res.status(200).json({ success: true, message: 'Email sent.' });
   } catch (error) {
     return errorHandler(res, error.message);
