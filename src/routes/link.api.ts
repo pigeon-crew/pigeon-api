@@ -28,12 +28,10 @@ router.post('/create', auth, async (req, res) => {
       html: `<p>${senderName} just sent you a new link here: ${linkUrl}<p>`,
     };
     await sendEmail(email);
-    return res
-      .status(200)
-      .json({
-        success: true,
-        message: 'Recipient does not exist. New link sent via email.',
-      });
+    return res.status(200).json({
+      success: true,
+      message: 'Recipient does not exist. New link sent via email.',
+    });
   }
   const recipientId = recipient._id;
 
@@ -50,8 +48,6 @@ router.post('/create', auth, async (req, res) => {
   return newLink
     .save()
     .then(() => {
-      // TODO: notify recipient here
-
       return res.status(200).json({ success: true, message: 'New link sent.' });
     })
     .catch((err) => {
@@ -66,8 +62,12 @@ router.post('/create', auth, async (req, res) => {
 router.get('/me', auth, async (req, res) => {
   const { userId } = req;
 
+  // Link.find({
+  //   $or: [{ recipientId: userId }, { senderId: userId }],
+  // })
+
   Link.find({
-    $or: [{ recipientId: userId }, { senderId: userId }],
+    recipientId: userId,
   })
     .sort({ timestamp: 'desc' })
     .exec((err, links) => {
