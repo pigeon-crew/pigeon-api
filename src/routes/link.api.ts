@@ -61,10 +61,7 @@ router.post('/create', auth, async (req, res) => {
 // https://softwareontheroad.com/pagination-in-nodejs-mongo/
 router.get('/me', auth, async (req, res) => {
   const { userId } = req;
-
-  // Link.find({
-  //   $or: [{ recipientId: userId }, { senderId: userId }],
-  // })
+  const { limit } = req.query;
 
   Link.find({
     recipientId: userId,
@@ -72,7 +69,12 @@ router.get('/me', auth, async (req, res) => {
     .sort({ timestamp: 'desc' })
     .exec((err, links) => {
       if (err) return errorHandler(res, err.message);
-      return res.status(200).json({ success: true, links });
+      // if there's not limit return everything
+      if (!limit) return res.status(200).json({ success: true, links });
+
+      return res
+        .status(200)
+        .json({ success: true, links: links.slice(0, Number(limit)) });
     });
 });
 
