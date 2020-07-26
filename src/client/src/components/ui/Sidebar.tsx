@@ -38,7 +38,7 @@ const SidebarOption = styled.div`
 
 const SidebarLabel = styled.div`
   font-size: 20px;
-  font-weight: 550;
+  font-weight: 400;
   color: black;
 `;
 
@@ -71,7 +71,7 @@ const options: SidebarOptions[] = [
   {
     title: 'Friends List',
     path: '/friends',
-    icon: '/images/link-solid.svg',
+    icon: '/images/user-friends-solid.svg',
   },
   {
     title: 'Account',
