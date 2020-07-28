@@ -7,7 +7,7 @@ import { ENDPOINT } from '../utils/config';
 import axios from 'axios';
 
 const Body = styled.div`
-  margin: 80px 0 0 50px;
+  margin: 30px 0 0 50px;
   display: flex;
   flex-direction: column;
   text-align: center;

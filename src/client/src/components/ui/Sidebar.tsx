@@ -11,6 +11,7 @@ const SidebarContainer = styled.div`
   width: 100%;
   min-height: 100vh;
   border-right: 1px solid rgba(72, 72, 72, 0.2);
+  margin-left: 2.5rem;
 `;
 
 // TODO: Add selected button styling
@@ -40,12 +41,6 @@ const SidebarLabel = styled.div`
   font-size: 20px;
   font-weight: 400;
   color: black;
-`;
-
-const Logo = styled.div`
-  font-size: 40px;
-  cursor: pointer;
-  margin-bottom: 40px;
 `;
 
 const Icon = styled.img`
@@ -88,9 +83,6 @@ const options: SidebarOptions[] = [
 const Sidebar: React.FC<Props> = (props) => {
   return (
     <SidebarContainer>
-      <Link to="/">
-        <Logo>🐦</Logo>
-      </Link>
       {options.map((option) => (
         <Link
           to={option.path || '/'}

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import InstallExtensionModal from '../../modals/InstallExtensionModal';
 import Sidebar from '../ui/Sidebar';
+import NavBar from '../ui/NavBar';
 
 // AUTH LOGIC HERE
 
@@ -23,7 +24,7 @@ const Container = styled.div`
 const ContentContainer = styled.div`
   display: flex;
   height: 600px;
-  max-width: 90%;
+  max-width: 100%;
   margin-right: auto;
   margin-left: auto;
 `;
@@ -33,6 +34,7 @@ const User: React.FC<Props> = ({ children, installExtensionOpen, ...rest }) => {
     <>
       {installExtensionOpen && <InstallExtensionModal />}
       <Container>
+        <NavBar />
         <ContentContainer>
           <Sidebar />
           {children}
