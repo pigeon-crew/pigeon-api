@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Colors from '../../common/Colors';
+import InstallExtensionModal from '../../modals/InstallExtensionModal';
 
 const SidebarContainer = styled.div`
   display: flex;
@@ -57,6 +58,7 @@ interface SidebarOptions {
   icon?: string;
 }
 
+// TODO: Change extension link to chrome webstore
 const options: SidebarOptions[] = [
   {
     title: 'Links',
@@ -69,33 +71,32 @@ const options: SidebarOptions[] = [
     icon: '/images/user-friends-solid.svg',
   },
   {
-    title: 'Account',
-    path: '/account',
-    icon: '/images/link-solid.svg',
-  },
-  {
     title: 'Extension',
     path: '/',
-    icon: '/images/link-solid.svg',
+    icon: '/images/download-solid.svg',
   },
 ];
 
 const Sidebar: React.FC<Props> = (props) => {
+  const [renderModal, setRenderModal] = useState(false);
   return (
-    <SidebarContainer>
-      {options.map((option) => (
-        <Link
-          to={option.path || '/'}
-          key={option.title + option.path}
-          style={{ color: 'gray' }}
-        >
-          <SidebarOption>
-            <Icon src={option.icon} />
-            <SidebarLabel>{option.title}</SidebarLabel>
-          </SidebarOption>
-        </Link>
-      ))}
-    </SidebarContainer>
+    <>
+      {renderModal && <InstallExtensionModal />}
+      <SidebarContainer>
+        {options.map((option) => (
+          <Link
+            to={option.path || '/'}
+            key={option.title + option.path}
+            style={{ color: 'gray' }}
+          >
+            <SidebarOption>
+              <Icon src={option.icon} />
+              <SidebarLabel>{option.title}</SidebarLabel>
+            </SidebarOption>
+          </Link>
+        ))}
+      </SidebarContainer>
+    </>
   );
 };
 
