@@ -117,7 +117,7 @@ router.get('/preview', auth, async (req, res) => {
     metaTagData.description = `${description.substring(0, 200)}...`;
   }
 
-  return res.status(200).json(metaTagData);
+  return res.status(200).json({ success: true, data: metaTagData });
 });
 
 // TESTING ROUTES BELOW
