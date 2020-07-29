@@ -88,13 +88,7 @@ router.get('/me', auth, async (req, res) => {
 });
 
 // get link preview
-// router.get('/preview', async (req, res) => {
-//   const { previewUrl } = req.body;
-
-//   return res.status(200).json({ success: true, data: previewUrl });
-// });
-
-router.get('/preview', async (req, res) => {
+router.post('/preview', async (req, res) => {
   const { previewUrl } = req.body;
 
   if (!validateUrl(previewUrl)) {
