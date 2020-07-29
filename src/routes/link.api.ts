@@ -12,6 +12,11 @@ import { SENDGRID_EMAIL } from '../utils/config';
 
 const router = express.Router();
 
+const validateUrl = (url: string): boolean => {
+  const urlRegexp = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+  return urlRegexp.test(url);
+};
+
 // send new link
 router.post('/create', auth, async (req, res) => {
   const { linkUrl } = req.body;
@@ -83,8 +88,12 @@ router.get('/me', auth, async (req, res) => {
 });
 
 // get link preview
-router.get('/preview', auth, async (req, res) => {
+router.get('/preview', async (req, res) => {
   const { previewUrl } = req.body;
+
+  if (!validateUrl(previewUrl)) {
+    return errorHandler(res, 'Invalid URL.');
+  }
 
   const resp = await fetch(previewUrl);
   const html = await resp.text();
