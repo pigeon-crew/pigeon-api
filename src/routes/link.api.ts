@@ -87,53 +87,53 @@ router.get('/me', auth, async (req, res) => {
     });
 });
 
-router.get('/preview', async (req, res) => {
-  const { previewUrl } = req.body;
-
-  return res.status(200).json({ success: true, data: previewUrl });
-});
-
 // get link preview
 // router.get('/preview', async (req, res) => {
 //   const { previewUrl } = req.body;
 
-//   if (!validateUrl(previewUrl)) {
-//     return errorHandler(res, 'Invalid URL.');
-//   }
-
-//   const resp = await fetch(previewUrl);
-//   const html = await resp.text();
-//   const $ = cheerio.load(html);
-
-//   const getMetaTag = (name: string) => {
-//     return (
-//       $(`meta[name=${name}]`).attr('content') ||
-//       $(`meta[name="og:${name}"]`).attr('content') ||
-//       $(`meta[name="twitter:${name}"]`).attr('content') ||
-//       $(`meta[property=${name}]`).attr('content') ||
-//       $(`meta[property="og:${name}"]`).attr('content') ||
-//       $(`meta[property="twitter:${name}"]`).attr('content')
-//     );
-//   };
-
-//   const metaTagData = {
-//     url: previewUrl,
-//     domain: url.parse(previewUrl).hostname,
-//     title: getMetaTag('title') || $('h1').text(),
-//     img: getMetaTag('image') || './images/no-image.png',
-//     description:
-//       getMetaTag('description') || $('p').text() || 'No description available',
-//   };
-
-//   const { description } = metaTagData;
-
-//   // avoiding description to be more then 200 chars
-//   if (description.length > 200) {
-//     metaTagData.description = `${description.substring(0, 200)}...`;
-//   }
-
-//   return res.status(200).json({ success: true, data: metaTagData });
+//   return res.status(200).json({ success: true, data: previewUrl });
 // });
+
+router.get('/preview', async (req, res) => {
+  const { previewUrl } = req.body;
+
+  if (!validateUrl(previewUrl)) {
+    return errorHandler(res, 'Invalid URL.');
+  }
+
+  const resp = await fetch(previewUrl);
+  const html = await resp.text();
+  const $ = cheerio.load(html);
+
+  const getMetaTag = (name: string) => {
+    return (
+      $(`meta[name=${name}]`).attr('content') ||
+      $(`meta[name="og:${name}"]`).attr('content') ||
+      $(`meta[name="twitter:${name}"]`).attr('content') ||
+      $(`meta[property=${name}]`).attr('content') ||
+      $(`meta[property="og:${name}"]`).attr('content') ||
+      $(`meta[property="twitter:${name}"]`).attr('content')
+    );
+  };
+
+  const metaTagData = {
+    url: previewUrl,
+    domain: url.parse(previewUrl).hostname,
+    title: getMetaTag('title') || $('h1').text(),
+    img: getMetaTag('image') || './images/no-image.png',
+    description:
+      getMetaTag('description') || $('p').text() || 'No description available',
+  };
+
+  const { description } = metaTagData;
+
+  // avoiding description to be more then 200 chars
+  if (description.length > 200) {
+    metaTagData.description = `${description.substring(0, 200)}...`;
+  }
+
+  return res.status(200).json({ success: true, data: metaTagData });
+});
 
 // TESTING ROUTES BELOW
 // get all links
