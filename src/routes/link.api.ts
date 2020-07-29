@@ -1,9 +1,13 @@
 import express from 'express';
+import cheerio from 'cheerio';
+import url from 'url';
+import fetch from 'node-fetch';
 import auth from '../middleware/auth';
 import { Link } from '../models/link.model';
 import { User } from '../models/user.model';
 import errorHandler from './error';
 import sendEmail from '../utils/email';
+
 import { SENDGRID_EMAIL } from '../utils/config';
 
 const router = express.Router();
@@ -76,6 +80,44 @@ router.get('/me', auth, async (req, res) => {
         .status(200)
         .json({ success: true, links: links.slice(0, Number(limit)) });
     });
+});
+
+// get link preview
+router.get('/preview', auth, async (req, res) => {
+  const { previewUrl } = req.body;
+
+  const resp = await fetch(previewUrl);
+  const html = await resp.text();
+  const $ = cheerio.load(html);
+
+  const getMetaTag = (name: string) => {
+    return (
+      $(`meta[name=${name}]`).attr('content') ||
+      $(`meta[name="og:${name}"]`).attr('content') ||
+      $(`meta[name="twitter:${name}"]`).attr('content') ||
+      $(`meta[property=${name}]`).attr('content') ||
+      $(`meta[property="og:${name}"]`).attr('content') ||
+      $(`meta[property="twitter:${name}"]`).attr('content')
+    );
+  };
+
+  const metaTagData = {
+    url: previewUrl,
+    domain: url.parse(previewUrl).hostname,
+    title: getMetaTag('title') || $('h1').text(),
+    img: getMetaTag('image') || './images/no-image.png',
+    description:
+      getMetaTag('description') || $('p').text() || 'No description available',
+  };
+
+  const { description } = metaTagData;
+
+  // avoiding description to be more then 200 chars
+  if (description.length > 200) {
+    metaTagData.description = `${description.substring(0, 200)}...`;
+  }
+
+  return res.status(200).json(metaTagData);
 });
 
 // TESTING ROUTES BELOW
