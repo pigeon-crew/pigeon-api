@@ -114,9 +114,12 @@ router.post('/preview', async (req, res) => {
     url: previewUrl,
     domain: url.parse(previewUrl).hostname,
     title: getMetaTag('title') || $('h1').text(),
-    img: getMetaTag('image') || './images/no-image.png',
+    img: getMetaTag('image'),
     description:
       getMetaTag('description') || $('p').text() || 'No description available',
+    favicon: `https://s2.googleusercontent.com/s2/favicons?domain=${
+      url.parse(previewUrl).hostname
+    }`,
   };
 
   const { description } = metaTagData;
