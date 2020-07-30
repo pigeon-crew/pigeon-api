@@ -36,7 +36,7 @@ const onConnection = (client: socket.Socket, io: socket.Server) => {
     console.log('Disconnected');
     const socketId = client.id;
 
-    await Socket.deleteOne({ socketId });
+    await Socket.deleteMany({ socketId });
   });
 
   client.on('linkSent', async (payload) => {
@@ -50,6 +50,10 @@ const onConnection = (client: socket.Socket, io: socket.Server) => {
     if (!recipient) return;
     const recipientId = recipient._id;
     const recipientSockets = await Socket.find({ uid: recipientId });
+
+    // update notification count
+    recipient.notificationCount++;
+    await recipient.save();
 
     if (recipientSockets) {
       const payloadEmit = {

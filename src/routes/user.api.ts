@@ -50,10 +50,10 @@ router.post('/login', async (req, res) => {
   const { password } = req.body;
 
   User.findOne({ email }).then((user):
-  | Response
-  | Promise<boolean>
-  | boolean
-  | PromiseLike<boolean> => {
+    | Response
+    | Promise<boolean>
+    | boolean
+    | PromiseLike<boolean> => {
     // user does not exist
     if (!user) return errorHandler(res, 'User email or password is incorrect.');
 
@@ -108,7 +108,7 @@ router.get('/me', auth, (req, res) => {
   const { userId } = req;
 
   return User.findById(userId)
-    .select('firstName lastName email _id')
+    .select('firstName lastName email _id notificationCount')
     .then((user) => {
       if (!user) return errorHandler(res, 'User does not exist.');
 

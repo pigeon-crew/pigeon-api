@@ -10,6 +10,7 @@ interface IUser extends mongoose.Document {
   password: string;
   refreshToken: string;
   friendships: [string];
+  notificationCount: number;
 }
 
 const UserSchema = new Schema({
@@ -19,6 +20,7 @@ const UserSchema = new Schema({
   password: { type: String, required: true },
   refreshToken: { type: String, required: false },
   friendships: [String],
+  notificationCount: { type: Number, default: 0 },
 });
 
 const User = mongoose.model<IUser>('User', UserSchema);
