@@ -1,6 +1,5 @@
 const sgMail = require("@sendgrid/mail");
-import { SENDGRID_API_KEY } from './config';
-sgMail.setApiKey(SENDGRID_API_KEY);
+sgMail.setApiKey("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");
 
 templates = {
     new_user : "d-eb590ef4bbe4415eb4afd675b0b03dbc",
@@ -14,9 +13,7 @@ function sendEmail(data) {
       templateId: templates[data.templateName],
       //extract the custom fields 
       dynamic_template_data: {
-         name: data.name,
-         confirm_account_url:  data.confirm_account__url,
-         reset_password_url: data.reset_password_url
+         firstName: data.name,
       }
     };
     //send the email
