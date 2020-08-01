@@ -86,35 +86,22 @@ const Links = () => {
 
     const parseMetadata = async () => {
       const previewData: object[] = [];
-      placeholderLinks.map((link) =>
-        axios({
-          url: `${ENDPOINT}/api/links/preview`,
-          method: 'POST',
-          timeout: 0,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          data: JSON.stringify({
-            previewUrl: link,
-          }),
-        })
-          .then((response) => {
-            previewData.push(response.data.data);
-          })
-          .catch((err: any) => {
-            if (err && err.response && err.response.data) {
-              const errMessage = err.response.data.message;
-              alert(errMessage);
-            }
-          })
-      );
+      placeholderLinks.map(async (link) => {
+        const meta = await API.fetchMetadata(link);
+        previewData.push(meta);
+      });
+
       return previewData;
     };
 
-    parseMetadata().then((result) => {
-      setMetadata(result);
-      setFetching(false);
-    });
+    const retrieveMetadata = async () => {
+      await parseMetadata().then((result) => {
+        setMetadata(result);
+        setFetching(false);
+      });
+    };
+
+    retrieveMetadata();
 
     getUserID().then((result) => {
       axios({

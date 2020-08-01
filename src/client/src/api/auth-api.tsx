@@ -20,4 +20,25 @@ const fetchMe = async (accessToken: string): Promise<any> => {
   });
 };
 
-export { fetchMe };
+const fetchMetadata = async (link: string): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    axios({
+      url: `${ENDPOINT}/api/links/preview`,
+      method: 'POST',
+      timeout: 0,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({
+        previewUrl: link,
+      }),
+    })
+      .then((response) => {
+        const meta = response.data.data;
+        resolve(meta);
+      })
+      .catch((err) => reject(err.response));
+  });
+};
+
+export { fetchMe, fetchMetadata };
