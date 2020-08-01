@@ -12,9 +12,9 @@ import { SENDGRID_EMAIL } from '../utils/config';
 
 const router = express.Router();
 
-const validateUrl = (url: string): boolean => {
+const validateUrl = (inputURL: string): boolean => {
   const urlRegexp = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
-  return urlRegexp.test(url);
+  return urlRegexp.test(inputURL);
 };
 
 // send new link

@@ -78,25 +78,21 @@ const options: SidebarOptions[] = [
 ];
 
 const Sidebar: React.FC<Props> = (props) => {
-  const [renderModal, setRenderModal] = useState(false);
   return (
-    <>
-      {renderModal && <InstallExtensionModal />}
-      <SidebarContainer>
-        {options.map((option) => (
-          <Link
-            to={option.path || '/'}
-            key={option.title + option.path}
-            style={{ color: 'gray' }}
-          >
-            <SidebarOption>
-              <Icon src={option.icon} />
-              <SidebarLabel>{option.title}</SidebarLabel>
-            </SidebarOption>
-          </Link>
-        ))}
-      </SidebarContainer>
-    </>
+    <SidebarContainer>
+      {options.map((option) => (
+        <Link
+          to={option.path || '/'}
+          key={option.title + option.path}
+          style={{ color: 'gray' }}
+        >
+          <SidebarOption>
+            <Icon src={option.icon} />
+            <SidebarLabel>{option.title}</SidebarLabel>
+          </SidebarOption>
+        </Link>
+      ))}
+    </SidebarContainer>
   );
 };
 
