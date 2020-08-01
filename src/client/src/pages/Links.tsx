@@ -4,6 +4,7 @@ import Colors from '../common/Colors';
 import Dashboard from '../components/layouts/Dashboard';
 import * as API from '../api/auth-api';
 import { ENDPOINT } from '../utils/config';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 interface Metadata {
@@ -34,6 +35,15 @@ const LinkContainer = styled.div`
   background-color: rgba(72, 72, 72, 0.05);
   box-shadow: 0px 2px 40px 0px rgba(0, 0, 0, 0.3); /*rgba(0, 0, 0, 0.15) 0px 3px 10px;*/
   padding: 20px 0;
+
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 10px;
+    opacity: 0.9;
+    background-color: rgba(72, 72, 72, 0.1);
+  }
+  &:active {
+    opacity: 0.6;
+  }
 `;
 
 const MetaImage = styled.img`
@@ -137,7 +147,7 @@ const Links = () => {
 
   if (fetching) {
     return (
-      <Dashboard installExtensionOpen={renderModal}>
+      <Dashboard>
         <Body>
           <h1>Your Links are being loaded</h1>
         </Body>
@@ -157,7 +167,14 @@ const Links = () => {
         </h1>
         {metadata &&
           metadata.map((data) => (
-            <LinkContainer key={data.url}>
+            <LinkContainer
+              key={data.url}
+              onClick={() => {
+                if (data.url) {
+                  window.open(data.url);
+                }
+              }}
+            >
               {data.img && <MetaImage src={data.img} />}
               {data.url && <a href={data.url}>{data.url}</a>}
               {data.description && <MetaDesc>{data.description}</MetaDesc>}
