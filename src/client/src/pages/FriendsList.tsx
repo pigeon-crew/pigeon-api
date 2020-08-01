@@ -7,10 +7,25 @@ import { ENDPOINT } from '../utils/config';
 import axios from 'axios';
 
 const Body = styled.div`
-  margin: 100px auto 0 auto;
+  margin: 30px 0 0 50px;
   display: flex;
   flex-direction: column;
   text-align: center;
+`;
+
+const FriendsListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  border: 1px solid;
+  border-radius: 15px;
+`;
+
+const FriendName = styled.div`
+  margin: 12px auto;
+  font-size: 20px;
+  font-weight: 500;
+  width: 100%;
 `;
 
 const Friends = () => {
@@ -47,11 +62,21 @@ const Friends = () => {
     });
   }, []);
   const [friends, setFriends] = useState(null);
+  const placeholderFriends = [
+    'Jane Doe',
+    'Ferris Bueller',
+    'Forest Gump',
+    'Nemo TheFish',
+  ];
   return (
     <Dashboard>
       <Body>
-        <h1>Friends</h1>
-        <p>Hi hello hey</p>
+        <h1>Your Friends</h1>
+        <FriendsListContainer>
+          {placeholderFriends.map((friend) => (
+            <FriendName key={friend}>{friend}</FriendName>
+          ))}
+        </FriendsListContainer>
       </Body>
     </Dashboard>
   );
