@@ -21,6 +21,7 @@ const validateUrl = (url: string): boolean => {
 router.post('/create', auth, async (req, res) => {
   const { linkUrl } = req.body;
   const { recipientEmail } = req.body;
+  const { message } = req.body;
   const { userId: senderId } = req;
 
   const sender = await User.findById(senderId);
@@ -52,6 +53,7 @@ router.post('/create', auth, async (req, res) => {
     recipientId,
     senderId,
     senderName,
+    message,
   });
 
   return newLink

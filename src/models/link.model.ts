@@ -8,6 +8,7 @@ interface ILink extends mongoose.Document {
   timestamp: Date;
   senderId: string;
   senderName: string;
+  message: string;
   recipientId: string;
   readStatus: boolean;
 }
@@ -17,6 +18,7 @@ const LinkSchema = new Schema({
   timestamp: { type: Date, default: Date.now },
   senderName: { type: String, required: true },
   senderId: { type: String, required: true },
+  message: { type: String, required: false },
   recipientId: { type: String, required: true },
   readStatus: { type: Boolean, default: false },
 });
