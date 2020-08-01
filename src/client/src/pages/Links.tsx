@@ -94,6 +94,7 @@ const Links = () => {
       return previewData;
     };
 
+    /* Experiment to see if await would fix */
     const retrieveMetadata = async () => {
       await parseMetadata().then((result) => {
         setMetadata(result);

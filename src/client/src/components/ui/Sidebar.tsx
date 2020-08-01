@@ -70,11 +70,6 @@ const options: SidebarOptions[] = [
     path: '/friends',
     icon: '/images/user-friends-solid.svg',
   },
-  {
-    title: 'Extension',
-    path: '/',
-    icon: '/images/download-solid.svg',
-  },
 ];
 
 const Sidebar: React.FC<Props> = (props) => {
@@ -92,6 +87,12 @@ const Sidebar: React.FC<Props> = (props) => {
           </SidebarOption>
         </Link>
       ))}
+      <a href="mailto:sieger2@illinois.edu?subject=Downloading the Pigeon Extension&amp;body=Joseph will email you the zip file containing the Pigeon extension!">
+        <SidebarOption>
+          <Icon src="/images/download-solid.svg" />
+          <SidebarLabel>Extension</SidebarLabel>
+        </SidebarOption>
+      </a>
     </SidebarContainer>
   );
 };
