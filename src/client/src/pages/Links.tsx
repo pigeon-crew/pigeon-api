@@ -6,6 +6,16 @@ import * as API from '../api/auth-api';
 import { ENDPOINT } from '../utils/config';
 import axios from 'axios';
 
+/*
+interface Metadata {
+  url?: string;
+  domain?: string;
+  title?: string;
+  img?: string;
+  description?: string;
+  favicon?: string;
+}*/
+
 const Body = styled.div`
   margin: 30px 0 0 50px;
   display: flex;
@@ -25,7 +35,11 @@ const LinkContainer = styled.div`
   padding: 20px 0;
 `;
 
-const placeholderLinks = ['google.com', 'bleacherreport.com', 'chelseafc.com'];
+const placeholderLinks = [
+  'https://www.google.com/',
+  'https://bleacherreport.com',
+  'https://chelseafc.com',
+];
 
 const Links = () => {
   useEffect(() => {
@@ -43,13 +57,13 @@ const Links = () => {
       return await API.fetchMe(accessTokenData.accessToken);
     };
 
-    const previewData: any[] = [];
+    const previewData: object[] = [];
     const parseMetadata = async () => {
       /* const previewData: any[] = []; */
       placeholderLinks.map((link) =>
         axios({
           url: `${ENDPOINT}/api/links/preview`,
-          method: 'GET',
+          method: 'POST',
           timeout: 0,
           headers: {
             'Content-Type': 'application/json',
@@ -59,7 +73,7 @@ const Links = () => {
           }),
         })
           .then((response) => {
-            previewData.push(response);
+            previewData.push(response.data.data);
           })
           .catch((err: any) => {
             if (err && err.response && err.response.data) {
@@ -70,6 +84,7 @@ const Links = () => {
       );
     };
     parseMetadata();
+    setMetadata(previewData);
 
     getUserID().then((result) => {
       axios({
@@ -97,6 +112,11 @@ const Links = () => {
   }, []);
   const [renderModal, setRenderModal] = useState(false);
   const [links, setLinks] = useState(null); /* Switch to this */
+  const [metadata, setMetadata] = useState([{}]);
+
+  console.log('Metadata');
+  console.log(metadata);
+  console.log('Array length = ' + metadata.length);
   return (
     <Dashboard installExtensionOpen={renderModal}>
       <Body>
