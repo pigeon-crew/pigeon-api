@@ -6,7 +6,6 @@ import * as API from '../api/auth-api';
 import { ENDPOINT } from '../utils/config';
 import axios from 'axios';
 
-/*
 interface Metadata {
   url?: string;
   domain?: string;
@@ -14,7 +13,7 @@ interface Metadata {
   img?: string;
   description?: string;
   favicon?: string;
-}*/
+}
 
 const Body = styled.div`
   margin: 30px 0 0 50px;
@@ -24,6 +23,8 @@ const Body = styled.div`
 `;
 
 const LinkContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   cursor: pointer;
   border-radius: 30px;
   width: 300px;
@@ -31,14 +32,30 @@ const LinkContainer = styled.div`
   margin: 0 auto 20px auto;
   text-align: center;
   background-color: rgba(72, 72, 72, 0.05);
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 10px;
+  box-shadow: 0px 2px 40px 0px rgba(0, 0, 0, 0.3); /*rgba(0, 0, 0, 0.15) 0px 3px 10px;*/
   padding: 20px 0;
+`;
+
+const MetaImage = styled.img`
+  height: 100px;
+  border-radius: 15px;
+  margin: 10px auto;
+`;
+
+const MetaDesc = styled.p`
+  margin: 10px auto;
+  padding: 0 5px;
+  -webkit-line-clamp: 3;
 `;
 
 const placeholderLinks = [
   'https://www.google.com/',
   'https://bleacherreport.com',
   'https://chelseafc.com',
+  'https://www.cnn.com/',
+  'https://www.nytimes.com/',
+  'https://www.reddit.com/',
+  'https://www.facebook.com/',
 ];
 
 const Links = () => {
@@ -57,9 +74,8 @@ const Links = () => {
       return await API.fetchMe(accessTokenData.accessToken);
     };
 
-    const previewData: object[] = [];
     const parseMetadata = async () => {
-      /* const previewData: any[] = []; */
+      const previewData: object[] = [];
       placeholderLinks.map((link) =>
         axios({
           url: `${ENDPOINT}/api/links/preview`,
@@ -82,9 +98,13 @@ const Links = () => {
             }
           })
       );
+      return previewData;
     };
-    parseMetadata();
-    setMetadata(previewData);
+
+    parseMetadata().then((result) => {
+      setMetadata(result);
+      setFetching(false);
+    });
 
     getUserID().then((result) => {
       axios({
@@ -112,20 +132,37 @@ const Links = () => {
   }, []);
   const [renderModal, setRenderModal] = useState(false);
   const [links, setLinks] = useState(null); /* Switch to this */
-  const [metadata, setMetadata] = useState([{}]);
+  const [metadata, setMetadata] = useState<Metadata[] | null>(null);
+  const [fetching, setFetching] = useState(true);
 
-  console.log('Metadata');
-  console.log(metadata);
-  console.log('Array length = ' + metadata.length);
+  if (fetching) {
+    return (
+      <Dashboard installExtensionOpen={renderModal}>
+        <Body>
+          <h1>Your Links are being loaded</h1>
+        </Body>
+      </Dashboard>
+    );
+  }
+
   return (
     <Dashboard installExtensionOpen={renderModal}>
       <Body>
-        <h1>Your Links</h1>
-        <p>Use metadata to make this look pretty</p>
-        <p>Will have link boxes with image, description, link (like Pocket)</p>
-        <LinkContainer>
-          <p>Insert link</p>
-        </LinkContainer>
+        <h1
+          style={{
+            marginBottom: '40px',
+          }}
+        >
+          Your Links
+        </h1>
+        {metadata &&
+          metadata.map((data) => (
+            <LinkContainer key={data.url}>
+              {data.img && <MetaImage src={data.img} />}
+              {data.url && <a href={data.url}>{data.url}</a>}
+              {data.description && <MetaDesc>{data.description}</MetaDesc>}
+            </LinkContainer>
+          ))}
       </Body>
     </Dashboard>
   );

@@ -19,6 +19,7 @@ const Container = styled.div`
   min-height: 100%;
   opacity: 100%;
   background-color: white;
+  overflow: scroll;
 `;
 
 const ContentContainer = styled.div`
