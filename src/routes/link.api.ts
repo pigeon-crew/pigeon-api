@@ -7,7 +7,6 @@ import { Link } from '../models/link.model';
 import { User } from '../models/user.model';
 import errorHandler from './error';
 import sendEmail from '../utils/email';
-import getFavicons from 'node-get-favicons';
 
 import { SENDGRID_EMAIL } from '../utils/config';
 
@@ -126,7 +125,7 @@ router.post('/preview', async (req, res) => {
     img: getMetaTag('image'),
     description:
       getMetaTag('description') || $('p').text() || 'No description available',
-    favicon: `https://${domain}/favicon.ico`,
+    favicon: `https://s2.googleusercontent.com/s2/favicons?domain_url=${previewUrl}`,
   };
 
   const { description } = metaTagData;
