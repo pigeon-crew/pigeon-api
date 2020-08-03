@@ -7,6 +7,7 @@ import { Link } from '../models/link.model';
 import { User } from '../models/user.model';
 import errorHandler from './error';
 import sendEmail from '../utils/email';
+import getFavicons from 'node-get-favicons';
 
 import { SENDGRID_EMAIL } from '../utils/config';
 
@@ -100,6 +101,13 @@ router.post('/preview', async (req, res) => {
   const resp = await fetch(previewUrl);
   const html = await resp.text();
   const $ = cheerio.load(html);
+  const domain = url.parse(previewUrl).hostname;
+
+  const upperDomain = domain!.charAt(0).toUpperCase() + domain!.slice(1);
+  const beautifiedDomain = upperDomain.substring(
+    0,
+    upperDomain.lastIndexOf('.')
+  );
 
   const getMetaTag = (name: string) => {
     return (
@@ -114,14 +122,12 @@ router.post('/preview', async (req, res) => {
 
   const metaTagData = {
     url: previewUrl,
-    domain: url.parse(previewUrl).hostname,
-    title: getMetaTag('title') || $('h1').text(),
+    domain,
+    title: getMetaTag('title') || $('title').text() || beautifiedDomain,
     img: getMetaTag('image'),
     description:
       getMetaTag('description') || $('p').text() || 'No description available',
-    favicon: `https://s2.googleusercontent.com/s2/favicons?domain=${
-      url.parse(previewUrl).hostname
-    }`,
+    favicon: `https://${domain}/favicon.ico`,
   };
 
   const { description } = metaTagData;
