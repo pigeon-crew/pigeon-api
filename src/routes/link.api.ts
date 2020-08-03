@@ -102,12 +102,11 @@ router.post('/preview', async (req, res) => {
   const html = await resp.text();
   const $ = cheerio.load(html);
   const domain = url.parse(previewUrl).hostname;
-
-  const upperDomain = domain!.charAt(0).toUpperCase() + domain!.slice(1);
-  const beautifiedDomain = upperDomain.substring(
-    0,
-    upperDomain.lastIndexOf('.')
-  );
+  let beautifiedDomain = previewUrl;
+  if (domain) {
+    const upperDomain = domain.charAt(0).toUpperCase() + domain.slice(1);
+    beautifiedDomain = upperDomain.substring(0, upperDomain.lastIndexOf('.'));
+  }
 
   const getMetaTag = (name: string) => {
     return (
