@@ -3,11 +3,12 @@ import express from 'express';
 import { Types } from 'mongoose';
 import fetch from 'node-fetch';
 import url from 'url';
+import { SENDGRID_EMAIL } from '../utils/config';
+import { sendEmail } from '../utils/email';
 import auth from '../middleware/auth';
 import { Link } from '../models/link.model';
 import { User } from '../models/user.model';
-import { SENDGRID_EMAIL } from '../utils/config';
-import { sendEmail } from '../utils/email';
+import { Like } from '../models/like.model';
 import errorHandler from './error';
 
 const router = express.Router();
@@ -70,6 +71,7 @@ router.post('/create', auth, async (req, res) => {
 // TODO: paginate
 // pagination tutorial:
 // https://softwareontheroad.com/pagination-in-nodejs-mongo/
+// supports search by: sender, like, archive, link keywords (in URL, description, etc.)
 router.get('/me', auth, async (req, res) => {
   const { userId } = req;
   const { limit } = req.query;
@@ -161,7 +163,7 @@ router.post('/archive/:id', auth, async (req, res) => {
   // else archive it
   if (user.archivedLinks.includes(linkId)) {
     user.archivedLinks = user.archivedLinks.filter((val) => val !== linkId);
-    console.log(user.archivedLinks);
+
     await user.save();
     return res
       .status(200)
@@ -173,6 +175,54 @@ router.post('/archive/:id', auth, async (req, res) => {
   return res
     .status(200)
     .json({ success: true, message: 'Link is archived to user.' });
+});
+
+// toggle like a link
+router.post('/like/:id', auth, async (req, res) => {
+  const { id: linkId } = req.params;
+  const { userId } = req;
+  if (!Types.ObjectId.isValid(linkId))
+    return errorHandler(res, 'Invalid link id.');
+  const targetLink = await Link.findById(linkId);
+  if (!targetLink) return errorHandler(res, 'Link does not exist.');
+
+  const user = await User.findById(userId);
+  if (!user) return errorHandler(res, 'User does not exist.');
+
+  const targetLike = await Like.findOne({
+    $and: [{ userId }, { linkId: targetLink._id }],
+  });
+
+  if (targetLike) {
+    await Like.deleteOne({ _id: targetLike._id });
+    return res
+      .status(200)
+      .json({ success: true, message: 'Link is unliked by user.' });
+  }
+
+  const newLike = new Like({
+    linkId,
+    userId,
+  });
+
+  await newLike.save();
+
+  return res
+    .status(200)
+    .json({ success: true, message: 'Link is liked by user.' });
+});
+
+// get my like status
+router.get('/like/:id', auth, async (req, res) => {
+  const { id: linkId } = req.params;
+
+  const targetLike = await Like.findOne({ linkId });
+
+  if (targetLike) {
+    return res.status(200).json({ success: true, liked: true });
+  }
+
+  return res.status(200).json({ success: true, liked: false });
 });
 
 // TESTING ROUTES BELOW
