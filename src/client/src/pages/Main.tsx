@@ -52,15 +52,6 @@ const LandingGraphic = styled.img`
   align-items: center;
 `;
 
-const BelowContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  padding: 3% 10% 5% 10%;
-  max-width: 70%;
-  margin-right: auto;
-  margin-left: auto;
-`;
-
 const DescriptionContainer = styled.div`
   display: flex;
   justify-content: space-around;
@@ -71,7 +62,7 @@ const DescriptionContainer = styled.div`
 
 const DescriptionTextContainer = styled.div`
   display: block;
-  width: 50%;
+  width: 60%;
   max-width: 0;
   min-width: 50%;
   margin-bottom: 0;
@@ -91,27 +82,46 @@ const BodyContainer = styled.div`
   background-color: ${Colors.green};
 `;
 
+const UseCaseContainer = styled.div``;
+
+const ModuleContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  padding: 3% 0%;
+  min-width: 800px;
+  max-width: 65vw;
+  margin-right: auto;
+  margin-left: auto;
+`;
+
 const ModuleBox = styled.div`
   background: white;
   border-radius: 20px;
+  box-shadow: 0px 7px 5px #aaaaaa;
 
-  width: 20%;
-  height: 40vh;
+  flex: 0 0 auto;
+  margin: 0px;
+  min-width: 220px;
+  min-height: 300px;
+  width: 25%;
+  height: 20vw;
+  padding: 30px 5px 10px 5px;
+
   display: flex;
   flex-direction: column;
-  justify-items: space-around;
   align-items: center;
+  justify-content: center;
 `;
 
 const ModuleImage = styled.img`
   text-align: center;
-  max-width: 50%;
-  max-height: 50%;
+  max-width: 65%;
+  max-height: 65%;
   object-fit: cover;
 `;
 
-const H2 = styled.h2`
-  font-size: 16px;
+const Paragraph = styled.h2`
+  font-size: 17px;
   color: dimgray;
   text-align: center;
   padding-top: 5px;
@@ -124,13 +134,13 @@ const H2 = styled.h2`
 `;
 
 const H3 = styled.h3`
-  font-size: 16px;
-  color: #282828;
+  font-size: 17px;
+  color: dimgray;
   text-align: left;
   padding-left: 2px;
   font-family: 'Avenir';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   display: block;
 `;
 
@@ -208,25 +218,33 @@ const Main = () => {
         </Content>
       </IntroContainer>
       <BodyContainer>
-        <Title style={{ textAlign: 'center' }}>
-          Pigeon is designed to help you when
-        </Title>
-        <BelowContainer>
-          <ModuleBox>
-            <ModuleImage src="/images/hangout.png" />
-            <H2>You're scrambling to share a Google Doc link on Zoom</H2>
-          </ModuleBox>
+        <UseCaseContainer>
+          <Title style={{ textAlign: 'center' }}>
+            Pigeon is designed to help you when
+          </Title>
+          <ModuleContainer>
+            <ModuleBox>
+              <ModuleImage src="/images/hangout.png" />
+              <Paragraph style={{ marginTop: '50px' }}>
+                You're scrambling to share a Google Doc link on Zoom
+              </Paragraph>
+            </ModuleBox>
 
-          <ModuleBox>
-            <ModuleImage src="/images/question.png" />
-            <H2>You lost an important link that your friend shared with you</H2>
-          </ModuleBox>
+            <ModuleBox>
+              <ModuleImage src="/images/question.png" />
+              <Paragraph style={{ marginTop: '50px' }}>
+                You lost an important link that your friend shared with you
+              </Paragraph>
+            </ModuleBox>
 
-          <ModuleBox>
-            <ModuleImage src="/images/friends.png" />
-            <H2>You want to check out what's trending among your friends</H2>
-          </ModuleBox>
-        </BelowContainer>
+            <ModuleBox>
+              <ModuleImage src="/images/friends.png" />
+              <Paragraph style={{ marginTop: '50px' }}>
+                You want to check out what's trending among your friends
+              </Paragraph>
+            </ModuleBox>
+          </ModuleContainer>
+        </UseCaseContainer>
         <DescriptionContainer>
           <DescriptionGraphic src="/images/linked.svg" />
           <DescriptionTextContainer>
