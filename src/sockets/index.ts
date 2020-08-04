@@ -1,6 +1,8 @@
 import socket from 'socket.io';
 import { Socket } from '../models/socket.model';
 import { User } from '../models/user.model';
+import { Like } from '../models/like.model';
+import { Link } from '../models/link.model';
 
 const onConnection = (client: socket.Socket, io: socket.Server) => {
   console.log('Connected...');
@@ -62,9 +64,38 @@ const onConnection = (client: socket.Socket, io: socket.Server) => {
       };
 
       recipientSockets.forEach((recipientSocket) => {
-        io.to(recipientSocket.socketId).emit('notifiyNewLink', payloadEmit);
+        io.to(recipientSocket.socketId).emit('notifyNewLink', payloadEmit);
       });
       console.log('Notify new link');
+    }
+  });
+
+  client.on('linkLiked', async (payload) => {
+    console.log('Link Liked Event Received');
+    const { senderId, linkId } = payload;
+
+    const sender = await User.findById(senderId);
+    if (!sender) return;
+
+    const targetLink = await Link.findById(linkId);
+    if (!targetLink) return;
+
+    const posterId = targetLink.senderId;
+
+    if (String(senderId) === posterId) return;
+
+    // find poster's socket
+    const posterSockets = await Socket.find({ uid: posterId });
+
+    if (posterSockets) {
+      const payloadEmit = {
+        title: `${sender.firstName} just starred your link!`,
+        message: `${sender.firstName} ${sender.lastName} just starred your recent link: ${targetLink.linkUrl}`,
+      };
+
+      posterSockets.forEach((posterSocket) => {
+        io.to(posterSocket.socketId).emit('notifyNewLike', payloadEmit);
+      });
     }
   });
 };
