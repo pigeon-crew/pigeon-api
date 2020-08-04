@@ -122,13 +122,11 @@ const AddFriends: React.FC<Props> = (props) => {
   ) => {
     const requiredValues = {
       email: values.email,
+      name: values.name,
     };
 
-    console.log('Waiting for updated route');
-    alert('Successfuly sent invite');
-
-    /*axios({
-      url: `${ENDPOINT}/api/friends/request`,
+    axios({
+      url: `${ENDPOINT}/api/email/invite`,
       method: 'POST',
       timeout: 0,
       headers: {
@@ -145,7 +143,7 @@ const AddFriends: React.FC<Props> = (props) => {
         const errMessage = err.response.data.message;
         alert(errMessage);
       });
-    setSubmitting(false);*/
+    setSubmitting(false);
   };
 
   return (

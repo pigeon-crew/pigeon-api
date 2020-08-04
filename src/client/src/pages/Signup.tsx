@@ -143,7 +143,7 @@ const Signup = () => {
         alert('Sign up success');
         history.push('/onboarding');
         axios({
-          url: `${ENDPOINT}/api/email/send`,
+          url: `${ENDPOINT}/api/email/signup`,
           method: 'POST',
           timeout: 0,
           headers: {
@@ -151,6 +151,7 @@ const Signup = () => {
           },
           data: JSON.stringify({
             email: values.email,
+            name: values.name,
           }),
         });
 
