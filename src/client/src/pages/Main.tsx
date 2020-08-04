@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Button } from 'semantic-ui-react';
-import styled from 'styled-components';
-import Header from '../components/ui/Header';
-import { Link } from 'react-router-dom';
-import Colors from '../common/Colors';
 import { useMediaQuery } from 'react-responsive';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import Colors from '../common/Colors';
+import Header from '../components/ui/Header';
 
 // TODO: Fix mobile view
 
@@ -16,35 +15,58 @@ const Container = styled.div`
   background-color: ${Colors.pink};
 `;
 
-const ContentContainer = styled.div`
+const IntroContainer = styled.div`
   display: flex;
-  height: 600px;
+  height: 90vh;
   max-width: 80%;
   margin-right: auto;
   margin-left: auto;
+`;
+
+const Content = styled.div`
+  margin-top: 2vh;
+  width: 100%;
+  height: 80%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+`;
+
+const LandingTextContainer = styled.div`
+  display: block;
+  width: 45%;
+  max-width: 0;
+  min-width: 45%;
+  margin-bottom: 0;
+  padding-right: 0;
+  color: white;
+  font-family: 'Avenir';
+`;
+
+const LandingGraphic = styled.img`
+  display: flex;
+  margin-top: 5vh;
+  max-width: 40%;
+  min-width: 40%;
+  justify-content: flex-end;
+  align-items: center;
 `;
 
 const BelowContainer = styled.div`
   display: flex;
-  position: relative;
-  height: 500px;
-  padding-top: 50px;
-  max-width: 80%;
-  margin-left: 16%;
+  justify-content: space-around;
+  padding: 3% 10% 5% 10%;
+  max-width: 70%;
   margin-right: auto;
-  align-items: center;
-  justify-content: space-between;
+  margin-left: auto;
 `;
 
 const DescriptionContainer = styled.div`
   display: flex;
-  height: 200px;
-  padding-top: 21%;
-  max-width: 80%;
-  margin-left: auto;
-  margin-right: auto;
+  justify-content: space-around;
   align-items: center;
-  padding-bottom: 20%;
+
+  padding: 10% 10% 15% 10%;
 `;
 
 const DescriptionTextContainer = styled.div`
@@ -60,79 +82,32 @@ const DescriptionTextContainer = styled.div`
 `;
 
 const DescriptionGraphic = styled.img`
-  display: flex;
-  max-width: 45%;
-  min-width: 45%;
-  justify-content: flex-end;
-  align-items: center;
+  height: 30%;
+  width: 30%;
 `;
 
-const TopContainer = styled.div`
-  display: flex;
-  height: 100px;
-  padding-top: 100px;
-  max-width: 80%;
-  margin-left: 32%;
-  margin-right: auto;
-  align-items: center;
-`;
-
-const Content = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-
-  @media (max-width: 786px) {
-    flex-direction: column;
-  }
+const BodyContainer = styled.div`
+  padding-top: 3%;
+  background-color: ${Colors.green};
 `;
 
 const ModuleBox = styled.div`
-  display: block;
-  height: 70%;
-  width: 25%;
   background: white;
   border-radius: 20px;
-  border-bottom-width: 10;
-  border-bottom-color: blue;
-`;
 
-const Spacer = styled.div`
-  margin-left: 5%;
-  display: block;
+  width: 20%;
+  height: 40vh;
+  display: flex;
+  flex-direction: column;
+  justify-items: space-around;
+  align-items: center;
 `;
 
 const ModuleImage = styled.img`
-  align: center;
-  max-width: 95%;
-  padding-left: 2.5%;
-  border-radius: 20px;
-  max-height: 77%;
-  display: block;
-  padding-top: 10%;
-`;
-
-const ModuleImage2 = styled.img`
-  align: center;
-  max-width: 95%;
-  padding-left: 2.5%;
-  border-radius: 20px;
-  max-height: 75%;
-  display: block;
-  padding-top: 5%;
-  margin-bottom: -5%;
-`;
-
-const ModuleImage3 = styled.img`
-  align: center;
-  max-width: 95%;
-  padding-left: 2.5%;
-  border-radius: 20px;
-  max-height: 75%;
-  display: block;
-  padding-top: 5%;
-  margin-bottom: -2%;
+  text-align: center;
+  max-width: 50%;
+  max-height: 50%;
+  object-fit: cover;
 `;
 
 const H2 = styled.h2`
@@ -159,17 +134,6 @@ const H3 = styled.h3`
   display: block;
 `;
 
-const LandingTextContainer = styled.div`
-  display: block;
-  width: 45%;
-  max-width: 0;
-  min-width: 45%;
-  margin-bottom: 0;
-  padding-right: 0;
-  color: white;
-  font-family: 'Avenir';
-`;
-
 const H1 = styled.h1`
   font-size: 50px;
   margin-bottom: 40px;
@@ -177,27 +141,9 @@ const H1 = styled.h1`
   color: white;
 `;
 
-const H11 = styled.h1`
-  font-size: 33px;
-  margin-bottom: 40px;
-  align-items: center;
-  text-align: center;
+const Title = styled.h1`
+  font-size: 40px;
   color: white;
-`;
-
-const H12 = styled.h1`
-  font-size: 33px;
-  margin-bottom: -12px;
-  text-align: left;
-  color: white;
-`;
-
-const LandingGraphic = styled.img`
-  display: flex;
-  max-width: 50%;
-  min-width: 50%;
-  justify-content: flex-end;
-  align-items: center;
 `;
 
 const InputField = styled.input`
@@ -243,8 +189,8 @@ const Main = () => {
 
   return (
     <Container>
-      <Header color={'${Colors.pink}'} />
-      <ContentContainer>
+      <Header color={'${Colors.blue}'} />
+      <IntroContainer>
         <Content>
           <LandingTextContainer>
             <H1>Spark quality conversations by sharing links.</H1>
@@ -260,49 +206,51 @@ const Main = () => {
           </LandingTextContainer>
           <LandingGraphic src="/images/social_sharing.svg" />
         </Content>
-      </ContentContainer>
-      <DescriptionContainer>
-        <DescriptionGraphic src="/images/linked.svg" />
-        <DescriptionTextContainer>
-          <H12>What is Pigeon?</H12>
-          <H3>
-            Pigeon is the fastest way to share links with friends. We make
-            link-sharing social by helping to organize and keep track of links
-            you send to friends!
-          </H3>
-          <H12>How does Pigeon work?</H12>
-          <H3>
-            When you sign up for Pigeon, you can add your friends and tell us
-            how you want to contact them. Whenever you want to send a link, just
-            hit Cmd+E to activate our extension! We make it easy to search your
-            contacts and send links quickly.
-          </H3>
-          <H12>How do I use Pigeon?</H12>
-          <H3>
-            Sign up to join our early access program above! Our extension will
-            soon be available on the chrome webstore.
-          </H3>
-        </DescriptionTextContainer>
-      </DescriptionContainer>
-      <TopContainer>
-        <H11>Pigeon is designed to help you when</H11>
-      </TopContainer>
-      <BelowContainer>
-        <ModuleBox>
-          <ModuleImage src="/images/hangout.png" />
-          <H2>You're scrambling to share a Google Doc link on Zoom</H2>
-        </ModuleBox>
-        <Spacer></Spacer>
-        <ModuleBox>
-          <ModuleImage2 src="/images/question.png" />
-          <H2>You lost an important link that your friend shared with you</H2>
-        </ModuleBox>
-        <Spacer></Spacer>
-        <ModuleBox>
-          <ModuleImage3 src="/images/friends.png" />
-          <H2>You want to check out what's trending among your friends</H2>
-        </ModuleBox>
-      </BelowContainer>
+      </IntroContainer>
+      <BodyContainer>
+        <Title style={{ textAlign: 'center' }}>
+          Pigeon is designed to help you when
+        </Title>
+        <BelowContainer>
+          <ModuleBox>
+            <ModuleImage src="/images/hangout.png" />
+            <H2>You're scrambling to share a Google Doc link on Zoom</H2>
+          </ModuleBox>
+
+          <ModuleBox>
+            <ModuleImage src="/images/question.png" />
+            <H2>You lost an important link that your friend shared with you</H2>
+          </ModuleBox>
+
+          <ModuleBox>
+            <ModuleImage src="/images/friends.png" />
+            <H2>You want to check out what's trending among your friends</H2>
+          </ModuleBox>
+        </BelowContainer>
+        <DescriptionContainer>
+          <DescriptionGraphic src="/images/linked.svg" />
+          <DescriptionTextContainer>
+            <Title>What is Pigeon?</Title>
+            <H3>
+              Pigeon is the fastest way to share links with friends. We make
+              link-sharing social by helping to organize and keep track of links
+              you send to friends!
+            </H3>
+            <Title>How does Pigeon work?</Title>
+            <H3>
+              When you sign up for Pigeon, you can add your friends and tell us
+              how you want to contact them. Whenever you want to send a link,
+              just hit Cmd+E to activate our extension! We make it easy to
+              search your contacts and send links quickly.
+            </H3>
+            <Title>How do I use Pigeon?</Title>
+            <H3>
+              Sign up to join our early access program above! Our extension will
+              soon be available on the chrome webstore.
+            </H3>
+          </DescriptionTextContainer>
+        </DescriptionContainer>
+      </BodyContainer>
     </Container>
   );
 };

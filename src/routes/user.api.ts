@@ -1,6 +1,8 @@
 import { compare, hash } from 'bcrypt';
 import express from 'express';
 import auth from '../middleware/auth';
+import { sendDynamicEmail } from '../utils/email';
+import { SENDGRID_EMAIL, SG_SIGNUP_TEMPLATE_ID } from '../utils/config';
 import { IUser, User } from '../models/user.model';
 import errorHandler from './error';
 import {
@@ -39,7 +41,19 @@ router.post('/signup', async (req, res) => {
 
     return newUser
       .save()
-      .then(() => res.status(200).json({ success: true }))
+      .then(async () => {
+        // send sign up email
+        const signupEmail = {
+          templateId: SG_SIGNUP_TEMPLATE_ID,
+          from: SENDGRID_EMAIL,
+          to: email,
+          dynamic_template_data: { firstName },
+        };
+
+        await sendDynamicEmail(signupEmail);
+
+        return res.status(200).json({ success: true });
+      })
       .catch((e) => errorHandler(res, e.message));
   });
 });

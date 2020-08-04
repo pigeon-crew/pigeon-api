@@ -3,7 +3,7 @@ import auth from '../middleware/auth';
 import { FriendReq, FriendReqStatus } from '../models/friendReq.model';
 import { User } from '../models/user.model';
 import errorHandler from './error';
-import sendEmail from '../utils/email';
+import { sendEmail } from '../utils/email';
 import { SENDGRID_EMAIL } from '../utils/config';
 
 const router = express.Router();
@@ -25,6 +25,7 @@ router.post('/request', auth, async (req, res) => {
         subject: `${senderName} invited you to Pigeon!`,
         html: 'Create an account on Pigeon now!',
       };
+
       await sendEmail(email);
       return res.status(200).json({
         success: true,

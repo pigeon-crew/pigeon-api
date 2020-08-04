@@ -6,7 +6,7 @@ import auth from '../middleware/auth';
 import { Link } from '../models/link.model';
 import { User } from '../models/user.model';
 import errorHandler from './error';
-import sendEmail from '../utils/email';
+import { sendEmail } from '../utils/email';
 
 import { SENDGRID_EMAIL } from '../utils/config';
 

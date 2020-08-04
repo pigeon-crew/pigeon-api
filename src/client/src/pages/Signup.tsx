@@ -1,15 +1,11 @@
+import axios from 'axios';
+import { Formik } from 'formik';
 import * as React from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { Button } from 'semantic-ui-react';
-import Header from '../components/ui/Header';
-import { useLocation } from 'react-router-dom';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { ENDPOINT } from '../utils/config';
-import axios, { AxiosError } from 'axios';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
-import AddFriend from './onboarding/AddFriends';
 import Colors from '../common/Colors';
+import Header from '../components/ui/Header';
+import { ENDPOINT } from '../utils/config';
 
 // TICKETS: Add loading animation to button. Validate email on landing page?
 
@@ -141,19 +137,6 @@ const Signup = () => {
     })
       .then(() => {
         alert('Sign up success');
-        history.push('/onboarding');
-        axios({
-          url: `${ENDPOINT}/api/email/signup`,
-          method: 'POST',
-          timeout: 0,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          data: JSON.stringify({
-            email: values.email,
-            name: values.name,
-          }),
-        });
 
         axios({
           url: `${ENDPOINT}/api/users/login`,
@@ -172,6 +155,7 @@ const Signup = () => {
               'pigeonAccessToken',
               JSON.stringify({ accessToken: response.data.accessToken })
             );
+            history.push('/onboarding');
           })
           .catch((err: any) => {
             if (err && err.response && err.response.data) {

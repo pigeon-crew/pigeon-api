@@ -10,6 +10,13 @@ type Email = {
   html: string;
 };
 
+type DynamicEmail = {
+  templateId: string;
+  to: string;
+  from: string;
+  dynamic_template_data: any;
+};
+
 const validateEmail = (email: string): boolean => {
   const emailRegexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
   return emailRegexp.test(email);
@@ -20,4 +27,17 @@ const sendEmail = (email: Email) => {
   sgMail.send(email);
 };
 
-export default sendEmail;
+const sendDynamicEmail = (email: DynamicEmail) => {
+  if (!validateEmail(email.to)) throw new Error('Email validation failed.');
+
+  const msg = {
+    to: email.to,
+    from: email.from,
+    templateId: email.templateId,
+    dynamic_template_data: email.dynamic_template_data,
+  };
+
+  sgMail.send(msg);
+};
+
+export { sendEmail, sendDynamicEmail };
