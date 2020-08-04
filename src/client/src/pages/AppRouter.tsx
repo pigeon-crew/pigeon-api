@@ -20,9 +20,9 @@ const AppRouter = () => {
         <Route exact path="/" component={Main} />
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/onboarding" component={AddFriends} />
-        <Route exact path="/links" component={Links} />
+        {/*<Route exact path="/links" component={Links} />
         <Route exact path="/account" component={AccountSettings} />
-        <Route exact path="/friends" component={FriendsList} />
+  <Route exact path="/friends" component={FriendsList} />*/}
         <Redirect to="/" />
       </Switch>
     </Router>
