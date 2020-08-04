@@ -44,9 +44,9 @@ router.post('/create', auth, async (req, res) => {
       message: 'Recipient does not exist. New link sent via email.',
     });
   }
-  const recipientId = recipient._id;
+  const recipientId = String(recipient._id);
 
-  if (!sender.friendships.includes(recipientId))
+  if (recipientId !== senderId && !sender.friendships.includes(recipientId))
     return errorHandler(res, 'Recipient is not your friend yet.');
 
   const newLink = new Link({
