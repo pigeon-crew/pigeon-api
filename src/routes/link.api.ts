@@ -35,9 +35,10 @@ router.post('/create', auth, async (req, res) => {
     const email = {
       to: recipientEmail,
       from: SENDGRID_EMAIL,
-      subject: 'You have a new link',
-      html: `<p>${senderName} just sent you a new link here: ${linkUrl}<p>`,
+      subject: `${senderName} just sent you a new link!`,
+      html: `Hey there! ${senderName} just sent you a new link here: ${linkUrl}. Send with ❤️ by Pigeon Team.`,
     };
+
     await sendEmail(email);
     return res.status(200).json({
       success: true,
