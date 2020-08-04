@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import express from 'express';
 import cheerio from 'cheerio';
 import url from 'url';
@@ -7,6 +8,7 @@ import { Link } from '../models/link.model';
 import { User } from '../models/user.model';
 import errorHandler from './error';
 import { sendEmail } from '../utils/email';
+import { Types } from 'mongoose';
 
 import { SENDGRID_EMAIL } from '../utils/config';
 
@@ -74,18 +76,27 @@ router.get('/me', auth, async (req, res) => {
   const { userId } = req;
   const { limit } = req.query;
 
-  Link.find({
+  const user = await User.findById(userId);
+  if (!user) return errorHandler(res, 'User does not exist.');
+
+  return Link.find({
     recipientId: userId,
   })
     .sort({ timestamp: 'desc' })
     .exec((err, links) => {
       if (err) return errorHandler(res, err.message);
+
+      const unarchived = links.filter(
+        (val) => !user.archivedLinks.includes(val._id)
+      );
+
       // if there's not limit return everything
-      if (!limit) return res.status(200).json({ success: true, links });
+      if (!limit)
+        return res.status(200).json({ success: true, links: unarchived });
 
       return res
         .status(200)
-        .json({ success: true, links: links.slice(0, Number(limit)) });
+        .json({ success: true, links: unarchived.slice(0, Number(limit)) });
     });
 });
 
@@ -93,9 +104,7 @@ router.get('/me', auth, async (req, res) => {
 router.post('/preview', async (req, res) => {
   const { previewUrl } = req.body;
 
-  if (!validateUrl(previewUrl)) {
-    return errorHandler(res, 'Invalid URL.');
-  }
+  if (!validateUrl(previewUrl)) return errorHandler(res, 'Invalid URL.');
 
   const resp = await fetch(previewUrl);
   const html = await resp.text();
@@ -136,6 +145,36 @@ router.post('/preview', async (req, res) => {
   }
 
   return res.status(200).json({ success: true, data: metaTagData });
+});
+
+// toggle archive a link
+router.post('/archive/:id', auth, async (req, res) => {
+  const { id: linkId } = req.params;
+  const { userId } = req;
+  if (!Types.ObjectId.isValid(linkId))
+    return errorHandler(res, 'Invalid link id.');
+  const targetLink = await Link.findById(linkId);
+  if (!targetLink) return errorHandler(res, 'Link does not exist.');
+
+  const user = await User.findById(userId);
+  if (!user) return errorHandler(res, 'User does not exist.');
+
+  // if link is archived already, unarchive it
+  // else archive it
+  if (user.archivedLinks.includes(linkId)) {
+    user.archivedLinks = user.archivedLinks.filter((val) => val !== linkId);
+    console.log(user.archivedLinks);
+    await user.save();
+    return res
+      .status(200)
+      .json({ success: true, message: 'Link is unarchived from user.' });
+  }
+
+  user.archivedLinks.push(linkId);
+  await user.save();
+  return res
+    .status(200)
+    .json({ success: true, message: 'Link is archived to user.' });
 });
 
 // TESTING ROUTES BELOW
