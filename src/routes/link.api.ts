@@ -1,16 +1,14 @@
-import { useRef } from 'react';
-import express from 'express';
 import cheerio from 'cheerio';
-import url from 'url';
+import express from 'express';
+import { Types } from 'mongoose';
 import fetch from 'node-fetch';
+import url from 'url';
 import auth from '../middleware/auth';
 import { Link } from '../models/link.model';
 import { User } from '../models/user.model';
-import errorHandler from './error';
-import { sendEmail } from '../utils/email';
-import { Types } from 'mongoose';
-
 import { SENDGRID_EMAIL } from '../utils/config';
+import { sendEmail } from '../utils/email';
+import errorHandler from './error';
 
 const router = express.Router();
 
