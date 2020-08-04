@@ -255,7 +255,9 @@ const AddFriends: React.FC<Props> = (props) => {
                     style={{ margin: '15px auto 0 auto' }}
                     onClick={() => {
                       if (referrals >= 1) {
-                        history.push('/links');
+                        window.location.assign(
+                          'mailto:sieger2@illinois.edu?subject=Downloading the Pigeon Extension&body=Joseph will email you the zip file containing the Pigeon extension!'
+                        );
                       } else {
                         setInsufficientReferrals(true);
                       }
