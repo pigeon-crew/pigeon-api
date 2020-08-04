@@ -33,12 +33,14 @@ const H1 = styled.h1`
   font-size: 40px;
   margin: auto;
   padding: 20px 0;
+  text-align: center;
 `;
 
 const SubHeader = styled.div`
   font-size: 20px;
   color: rgb(72, 72, 72);
   margin: auto;
+  text-align: center;
 `;
 
 const InputField = styled.input`

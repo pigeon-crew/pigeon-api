@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Header from '../components/ui/Header';
 import { Link } from 'react-router-dom';
 import Colors from '../common/Colors';
+import { useMediaQuery } from 'react-responsive';
 
 // TODO: Fix mobile view
 
@@ -225,11 +226,20 @@ const InputField = styled.input`
 `;
 
 const Main = () => {
+  const mobile = useMediaQuery({ query: '(max-width: 786px)' });
   const [pushURL, setPushURL] = useState('/signup');
 
   const handleChange = (event: any) => {
     setPushURL('/signup?email=' + event.target.value);
   };
+
+  if (mobile) {
+    return (
+      <h1 style={{ margin: '20px auto 0 auto', textAlign: 'center' }}>
+        Our landing page is currently only available on Desktop.
+      </h1>
+    );
+  }
 
   return (
     <Container>
