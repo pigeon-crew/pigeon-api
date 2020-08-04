@@ -5,15 +5,15 @@ sgMail.setApiKey(SENDGRID_API_KEY);
 type Personalization = {
   to: To[];
   dynamic_template_data: DTD;
-}
+};
 
 type To = {
   email: string;
-}
+};
 
 type DTD = {
   firstName: string;
-}
+};
 
 type Email = {
   from: string;
@@ -30,6 +30,5 @@ const sendEmail = (email: Email) => {
   if (!validateEmail(email.to)) throw new Error('Email validation failed.');
   sgMail.send(email);
 };
-
 
 export default sendEmail;
