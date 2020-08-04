@@ -1,24 +1,25 @@
 import express from 'express';
-import sendEmail from '../utils/email';
+import sendEmailTemplate from '../utils/mailer';
 import errorHandler from './error';
 import { SENDGRID_EMAIL } from '../utils/config';
 
 const router = express.Router();
 
 // send email
-router.post('/send', async (req, res) => {
-  const { email } = req.body;
+router.post('/signup', async (req, res) => {
+  const { email, name } = req.body;
+
   const payload = {
-    to: email,
-    from: SENDGRID_EMAIL,
+    templateName: 'd-eb590ef4bbe4415eb4afd675b0b03dbc',
+    sender: SENDGRID_EMAIL,
+    receiver: email,
     template_id: 'd-eb590ef4bbe4415eb4afd675b0b03dbc',
-    dynamic_template_data: {
-            "firstName": "Alexandr"
-          },
+    name,
   };
 
   try {
-    await sendSignUpEmail(payload);
+    await sendEmailTemplate(payload);
+    console.log('Signup email sent!');
     return res.status(200).json({ success: true, message: 'Email sent.' });
   } catch (error) {
     return errorHandler(res, error.message);
