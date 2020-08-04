@@ -52,7 +52,7 @@ const onConnection = (client: socket.Socket, io: socket.Server) => {
     const recipientSockets = await Socket.find({ uid: recipientId });
 
     // update notification count
-    recipient.notificationCount++;
+    recipient.notificationCount += 1;
     await recipient.save();
 
     if (recipientSockets) {
