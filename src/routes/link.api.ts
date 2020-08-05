@@ -75,29 +75,55 @@ router.post('/create', auth, async (req, res) => {
 // supports search by: sender, like, archive, link keywords (in URL, description, etc.)
 router.get('/me', auth, async (req, res) => {
   const { userId } = req;
-  const { limit } = req.query;
-
   const user = await User.findById(userId);
   if (!user) return errorHandler(res, 'User does not exist.');
+
+  const {
+    limit: qlimit,
+    archive: qarchive,
+    author: qauthor,
+    like: qlike,
+  } = req.query;
+
+  const limit = Number(qlimit);
+  const archive = String(qarchive) === 'true';
+  const author = String(qauthor).toLowerCase();
+  const like = String(qlike) === 'true';
 
   return Link.find({
     recipientId: userId,
   })
     .sort({ timestamp: 'desc' })
-    .exec((err, links) => {
+    .exec(async (err, links) => {
       if (err) return errorHandler(res, err.message);
+      let resultLinks = links;
 
-      const unarchived = links.filter(
-        (val) => !user.archivedLinks.includes(val._id)
-      );
+      if (qarchive && !archive) {
+        resultLinks = resultLinks.filter(
+          (val) => !user.archivedLinks.includes(val._id)
+        );
+      }
 
-      // if there's not limit return everything
-      if (!limit)
-        return res.status(200).json({ success: true, links: unarchived });
+      if (qlimit && limit) {
+        resultLinks = resultLinks.slice(0, Number(limit));
+      }
 
-      return res
-        .status(200)
-        .json({ success: true, links: unarchived.slice(0, Number(limit)) });
+      if (qauthor && author) {
+        resultLinks = resultLinks.filter((val) => {
+          return val.senderName.toLowerCase() === author;
+        });
+      }
+
+      if (qlike && like) {
+        const allLikesObj = await Like.find({ userId });
+        const allLikedLinks = allLikesObj.map((val) => val.linkId);
+        resultLinks = resultLinks.filter((val) => {
+          const isLiked = allLikedLinks.includes(String(val._id));
+          return isLiked;
+        });
+      }
+
+      return res.status(200).json({ success: true, links: resultLinks });
     });
 });
 
