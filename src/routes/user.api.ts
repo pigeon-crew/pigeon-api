@@ -64,10 +64,10 @@ router.post('/login', async (req, res) => {
   const { password } = req.body;
 
   User.findOne({ email }).then((user):
-  | Response
-  | Promise<boolean>
-  | boolean
-  | PromiseLike<boolean> => {
+    | Response
+    | Promise<boolean>
+    | boolean
+    | PromiseLike<boolean> => {
     // user does not exist
     if (!user) return errorHandler(res, 'User email or password is incorrect.');
 
@@ -95,7 +95,7 @@ router.post('/login', async (req, res) => {
 });
 
 // refresh token
-router.get('/refreshToken', (req, res) => {
+router.post('/refreshToken', (req, res) => {
   const { refreshToken } = req.body;
   if (!refreshToken) {
     return errorHandler(res, 'No token provided.');

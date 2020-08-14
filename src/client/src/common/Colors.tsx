@@ -1,6 +1,6 @@
 enum Colors {
   pink = '#ffa3a3',
-  blue = '#7BB9D1',
+  blue = '#91ccec',
   green = '#98D3B5',
 }
 

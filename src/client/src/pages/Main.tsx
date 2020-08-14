@@ -12,7 +12,7 @@ const Container = styled.div`
   bottom: 0;
   right: 0;
   min-width: 100%;
-  background-color: ${Colors.pink};
+  background-color: ${Colors.blue};
 `;
 
 const IntroContainer = styled.div`
